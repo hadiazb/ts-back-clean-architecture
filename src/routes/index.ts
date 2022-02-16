@@ -14,9 +14,9 @@ class Routes {
     this.router.get('/', (req, res, next) => {
       res.send({
         baseUrl:
-          this.configuration.app.env === 'develop'
-            ? `${this.configuration.app.host_dev}${this.configuration.app.port}`
-            : this.configuration.app.host_pro
+          process.env.NODE_ENV === 'develop'
+            ? `${this.configuration.develop.app.host}:${this.configuration.port}`
+            : this.configuration.stg.app.host
       });
     });
   }

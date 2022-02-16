@@ -1,0 +1,8 @@
+import path from 'path';
+
+export default {
+  config: path.resolve('./src/config', 'index.ts'),
+  'models-path': path.resolve('./store/models'),
+  'seeders-path': path.resolve('./store/seeders'),
+  'migrations-path': path.resolve('./store/migrations')
+};

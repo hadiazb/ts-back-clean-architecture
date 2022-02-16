@@ -1,16 +1,36 @@
 export interface Config {
-  app: { port: string | undefined; env: string | undefined };
-  database: {
-    dbName: string;
-    dbUser: string;
-    dbPassword: string;
-    dbPort: string;
-    dbHost: string;
-  };
-  redis: {
-    port: string | number;
-    hostName: string;
-    key: string;
-  };
-  auth: { secret: string | undefined };
+  port: string | number;
+  env: string;
+  develop: Develop;
+  stg: Develop;
+  production: Develop;
+}
+
+export interface Develop {
+  app: App;
+  database: Database;
+  redis: Redis;
+  auth: Auth;
+}
+
+export interface App {
+  host: string | undefined;
+}
+
+export interface Auth {
+  secret: string | undefined;
+}
+
+export interface Database {
+  dbName: string;
+  dbUser: string;
+  dbPassword: string;
+  dbPort: string | number;
+  dbHost: string;
+}
+
+export interface Redis {
+  port: string | number | undefined;
+  hostName: string | undefined;
+  key: string | undefined;
 }

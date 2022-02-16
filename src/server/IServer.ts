@@ -1,5 +1,5 @@
 export interface IServer {
   start(): void;
-  config(): void;
+  middlewares(): void;
   routes(): void;
 }

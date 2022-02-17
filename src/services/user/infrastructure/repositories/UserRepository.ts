@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 
 import { IUserRepository } from './IUserRepository';
-import { Users, UsersAttributes } from '../../../../database/init-model';
+import { Users, UsersAttributes, Roles } from '../../../../database/init-model';
 
 @Service()
 export class UserRepository implements IUserRepository {
@@ -34,8 +34,11 @@ export class UserRepository implements IUserRepository {
   }
 
   public async createOne(body: UsersAttributes): Promise<Users> {
+    let response;
     try {
-      return await Users.create(body);
+      response = await Users.create(body);
+      await Roles.create({ idUser: response.id, rolName: 'admin' });
+      return response;
     } catch (error) {
       throw new Error('Error en la peticion');
     }

@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
+import { Roles, RolesId } from './Roles';
 
 export interface UsersAttributes {
   id: number;
@@ -20,6 +21,12 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
   lastName?: string;
   email?: string;
   phone?: string;
+
+  // Users hasOne Roles via idUser
+  idRoles_Roles!: Roles;
+  getIdRoles!: Sequelize.BelongsToGetAssociationMixin<Roles>;
+  setIdRoles!: Sequelize.BelongsToSetAssociationMixin<Roles, RolesId>;
+  createIdRoles!: Sequelize.BelongsToCreateAssociationMixin<Roles>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Users {
     return Users.init(
@@ -51,7 +58,7 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
         sequelize,
         tableName: 'Users',
         schema: 'public',
-        timestamps: false,
+        timestamps: true,
         indexes: [
           {
             name: 'Users_pkey',

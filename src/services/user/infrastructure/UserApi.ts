@@ -48,7 +48,7 @@ export default class UserApi {
 
   public async createOne(req: Request, res: Response, next: NextFunction) {
     await this.userController
-      .createOne()
+      .createOne(req.body)
       .then((response) => {
         res.send({
           response
@@ -61,7 +61,7 @@ export default class UserApi {
 
   public async updateOne(req: Request, res: Response, next: NextFunction) {
     await this.userController
-      .updateOne(req.params.id)
+      .updateOne(req.params.id, req.body)
       .then((response) => {
         res.send({
           response

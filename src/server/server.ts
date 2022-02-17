@@ -10,6 +10,7 @@ import { IServer } from './IServer';
 import routes from '../routes';
 import sequelize from '../database/connection';
 import userRoutes from '../services/user/infrastructure/UserRoutes';
+import { initModels } from '../database/init-model';
 
 export class Server implements IServer {
   public application!: express.Application;
@@ -43,33 +44,46 @@ export class Server implements IServer {
 
   public start() {
     this.application.listen(this.application.get('port'), () => {
-      if (this.configuration.env === 'develop') {
-        console.log(`This is a Develop enviroment, Running on ${this.configuration.develop.app.host}:${this.application.get('port')}`);
-      }
-      if (this.configuration.env === 'stg') {
-        console.log(`This is a Stg enviroment, Running on ${this.configuration.stg.app.host}`);
-      }
-      if (this.configuration.env === 'production') {
-        console.log(`This is a Production enviroment, Running on ${this.configuration.production.app.host}`);
-      }
+      this.listenServer();
       this.connectionDB();
+      this.initModels();
     });
   }
 
   public async connectionDB() {
     try {
-      this.database.authenticate();
-      if (this.configuration.env === 'develop') {
-        console.log(`Database connected on Develop enviroment Database Name: ${this.configuration.develop.database.dbName}`);
-      }
-      if (this.configuration.env === 'stg') {
-        console.log(`Database connected on Stg enviroment Database Name: ${this.configuration.stg.database.dbName}`);
-      }
-      if (this.configuration.env === 'production') {
-        console.log(`Database connected on Production enviroment Database Name: ${this.configuration.production.database.dbName}`);
-      }
+      this.database.sync({ force: true });
+      this.databaseLog();
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  public initModels() {
+    initModels(this.database);
+  }
+
+  public listenServer() {
+    if (this.configuration.env === 'develop') {
+      console.log(`This is a Develop enviroment, Running on ${this.configuration.develop.app.host}:${this.application.get('port')}`);
+    }
+    if (this.configuration.env === 'stg') {
+      console.log(`This is a Stg enviroment, Running on ${this.configuration.stg.app.host}`);
+    }
+    if (this.configuration.env === 'production') {
+      console.log(`This is a Production enviroment, Running on ${this.configuration.production.app.host}`);
+    }
+  }
+
+  public databaseLog() {
+    if (this.configuration.env === 'develop') {
+      console.log(`Database connected on Develop enviroment Database Name: ${this.configuration.develop.database.dbName}`);
+    }
+    if (this.configuration.env === 'stg') {
+      console.log(`Database connected on Stg enviroment Database Name: ${this.configuration.stg.database.dbName}`);
+    }
+    if (this.configuration.env === 'production') {
+      console.log(`Database connected on Production enviroment Database Name: ${this.configuration.production.database.dbName}`);
     }
   }
 }

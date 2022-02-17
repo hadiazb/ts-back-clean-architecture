@@ -1,4 +1,5 @@
 export interface Config {
+  path: string;
   port: string | number;
   env: string;
   develop: Develop;

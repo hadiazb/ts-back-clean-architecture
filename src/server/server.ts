@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
@@ -8,11 +9,13 @@ import { Config } from '../config/interface';
 import { IServer } from './IServer';
 import routes from '../routes';
 import sequelize from '../database/connection';
+import userRoutes from '../services/user/infrastructure/UserRoutes';
 
 export class Server implements IServer {
   public application!: express.Application;
   public configuration: Config = config;
   public database = sequelize;
+  public path = this.configuration.path;
 
   constructor() {
     this.application = express();
@@ -35,6 +38,7 @@ export class Server implements IServer {
 
   public routes() {
     this.application.use(routes);
+    this.application.use(`${this.path}/user`, userRoutes);
   }
 
   public start() {

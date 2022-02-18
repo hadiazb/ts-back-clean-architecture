@@ -42,7 +42,7 @@ class UserRoutes {
             { authorization: true, path: '/findOne/:id', method: ['GET'] },
             { authorization: true, path: '/deleteOne/:id', method: ['DELETE'] },
             { authorization: true, path: '/createOne', method: ['POST'] },
-            { authorization: true, path: '/updateOne', method: ['PUT'] }
+            { authorization: true, path: '/updateOne/:id', method: ['PUT'] }
           ]
         }
       });
@@ -52,7 +52,7 @@ class UserRoutes {
     this.router.get('/findOne/:id', (req: Request, res: Response, next: NextFunction) => userApi.findOne(req, res, next));
     this.router.delete('/deleteOne/:id', (req: Request, res: Response, next: NextFunction) => userApi.deleteOne(req, res, next));
     this.router.post('/createOne', (req: Request, res: Response, next: NextFunction) => userApi.createOne(req, res, next));
-    this.router.put('/updateOne', (req: Request, res: Response, next: NextFunction) => userApi.updateOne(req, res, next));
+    this.router.put('/updateOne/:id', (req: Request, res: Response, next: NextFunction) => userApi.updateOne(req, res, next));
   }
 }
 

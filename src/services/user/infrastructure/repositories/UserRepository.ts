@@ -48,7 +48,7 @@ export class UserRepository implements IUserRepository {
     let response;
     try {
       response = await Users.create(body);
-      await Roles.create({ idUser: response.id, rolName: 'admin' });
+      await Roles.create({ idUser: response.id, rolName: 'usuario regular' });
       return response;
     } catch (error: any) {
       return await error.parent.detail;
@@ -56,12 +56,22 @@ export class UserRepository implements IUserRepository {
   }
 
   public async updateOne(id: string, body: UsersAttributes): Promise<[number, Users[]]> {
+    let response;
     try {
-      return await Users.update(body, {
+      const user = await Users.findByPk(id);
+      response = await Users.update(body, {
         where: {
           id
         }
       });
+
+      await Roles.update(body, {
+        where: {
+          idUser: user?.id
+        }
+      });
+
+      return response;
     } catch (error) {
       throw new Error('Error en la peticion');
     }

@@ -16,7 +16,7 @@ export default class UserApi {
         });
       })
       .catch((err) => {
-        res.send(err);
+        next(err);
       });
   }
 
@@ -29,7 +29,7 @@ export default class UserApi {
         });
       })
       .catch((err) => {
-        res.send(err);
+        next(err);
       });
   }
 
@@ -42,7 +42,7 @@ export default class UserApi {
         });
       })
       .catch((err) => {
-        res.send(err);
+        next(err);
       });
   }
 
@@ -55,7 +55,7 @@ export default class UserApi {
         });
       })
       .catch((err) => {
-        res.send(err);
+        next(err);
       });
   }
 
@@ -68,7 +68,7 @@ export default class UserApi {
         });
       })
       .catch((err) => {
-        res.send(err);
+        next(err);
       });
   }
 }

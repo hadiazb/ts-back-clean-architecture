@@ -1,5 +1,6 @@
 import { Service } from 'typedi';
 import { Request, Response, NextFunction } from 'express';
+import boom from '@hapi/boom';
 
 import { IUserContext } from './IUserContext';
 import { Users } from './models/Users';
@@ -8,7 +9,9 @@ import { Users } from './models/Users';
 export class UserContext implements IUserContext {
   constructor() {}
 
-  public validateAuth(req: Request, res: Response, next: NextFunction) {}
+  public validateAuth(req: Request, res: Response, next: NextFunction) {
+    boom.unauthorized('No estas autorizado');
+  }
 
   public async usersResponseValidation(users: Users[]): Promise<Users[] | string> {
     if (!users.length) {
@@ -23,7 +26,7 @@ export class UserContext implements IUserContext {
       return await user;
     }
 
-    return await 'El usuario no existe en la base de datos';
+    throw boom.notFound('User not found');
   }
 
   public async userDeleteResponseValidation(response: number | string, id: string): Promise<string | number> {
@@ -35,9 +38,16 @@ export class UserContext implements IUserContext {
     }
 
     if (response === 0) {
-      return await `El usuario con id=${id} no existe`;
+      throw boom.notFound(`User with id=${id} not found`);
     }
 
     return await response;
+  }
+
+  public async userUpdateResponseValidation(response: number, id: string): Promise<string> {
+    if (response === 0) {
+      throw boom.notFound(`User with id=${id} not found`);
+    }
+    return `User with id=${id} was updated`;
   }
 }

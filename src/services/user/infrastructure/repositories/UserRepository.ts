@@ -51,29 +51,31 @@ export class UserRepository implements IUserRepository {
       await Roles.create({ idUser: response.id, rolName: 'usuario regular' });
       return response;
     } catch (error: any) {
-      return await error.parent.detail;
+      return error.parent.detail;
     }
   }
 
   public async updateOne(id: string, body: UsersAttributes): Promise<[number, Users[]]> {
     let response;
     try {
-      const user = await Users.findByPk(id);
       response = await Users.update(body, {
         where: {
           id
         }
       });
 
-      await Roles.update(body, {
-        where: {
-          idUser: user?.id
-        }
-      });
+      if (response[0] === 1) {
+        const user = await Users.findByPk(id);
+        await Roles.update(body, {
+          where: {
+            idUser: user?.id
+          }
+        });
+      }
 
       return response;
-    } catch (error) {
-      throw new Error('Error en la peticion');
+    } catch (error: any) {
+      return error.message;
     }
   }
 }

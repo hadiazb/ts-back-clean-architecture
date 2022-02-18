@@ -11,33 +11,39 @@ import routes from '../routes';
 import sequelize from '../database/connection';
 import userRoutes from '../services/user/infrastructure/UserRoutes';
 import { initModels } from '../database/init-model';
+import { ErrorsHandler } from '../utils/error.handler';
 
 export class Server implements IServer {
   public application!: express.Application;
-
   public configuration: Config = config;
-
   public database = sequelize;
-
   public path = this.configuration.path;
+  public errorHandler: ErrorsHandler = new ErrorsHandler();
 
   constructor() {
     this.application = express();
-    this.middlewares();
+    this.middlewaresBefore();
     this.routes();
+    this.middlewaresAfter();
   }
 
-  public middlewares() {
+  public middlewaresAfter() {
     this.application.set('port', this.configuration.port);
-    this.application.use(morgan('dev'));
     this.application.use(helmet());
-    this.application.use(express.json());
     this.application.use(
       express.urlencoded({
         extended: false
       })
     );
     this.application.use(cors());
+    this.application.use(this.errorHandler.logErrors);
+    this.application.use(this.errorHandler.boomErrorHandler);
+    this.application.use(this.errorHandler.errorHandler);
+  }
+
+  public middlewaresBefore() {
+    this.application.use(morgan('dev'));
+    this.application.use(express.json());
   }
 
   public routes() {

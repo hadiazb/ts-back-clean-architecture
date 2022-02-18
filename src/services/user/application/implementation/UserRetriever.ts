@@ -28,7 +28,8 @@ export class UserRetriever implements IUserRetriever {
     return await this.userRepository.createOne(body);
   }
 
-  public async updateOne(id: string, body: UsersAttributes): Promise<[number, Users[]]> {
-    return await this.userRepository.updateOne(id, body);
+  public async updateOne(id: string, body: UsersAttributes): Promise<string> {
+    const response = await this.userRepository.updateOne(id, body);
+    return this.userContext.userUpdateResponseValidation(response[0], id);
   }
 }

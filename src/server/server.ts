@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
 
-import { config } from '../config/index';
+import config from '../config/index';
 import { Config } from '../config/interface';
 import { IServer } from './IServer';
 import routes from '../routes';
@@ -14,8 +14,11 @@ import { initModels } from '../database/init-model';
 
 export class Server implements IServer {
   public application!: express.Application;
+
   public configuration: Config = config;
+
   public database = sequelize;
+
   public path = this.configuration.path;
 
   constructor() {

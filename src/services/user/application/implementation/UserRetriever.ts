@@ -8,6 +8,7 @@ import { Users, UsersAttributes } from '../../../../database/init-model';
 @Service()
 export class UserRetriever implements IUserRetriever {
   constructor(private readonly userContext: UserContext, private readonly userRepository: UserRepository) {}
+
   public async findAll(): Promise<Users[]> {
     return await this.userRepository.findAll();
   }

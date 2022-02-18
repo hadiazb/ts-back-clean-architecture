@@ -2,10 +2,11 @@ import { Router, Request, NextFunction, Response } from 'express';
 import Container from 'typedi';
 
 import UserApi from './UserApi';
-import { config } from '../../../config/index';
+import config from '../../../config/index';
 
 class UserRoutes {
   public router: Router;
+
   public configuration = config;
 
   constructor() {

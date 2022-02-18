@@ -17,15 +17,22 @@ export type UsersCreationAttributes = Optional<UsersAttributes, UsersOptionalAtt
 
 export class Users extends Model<UsersAttributes, UsersCreationAttributes> implements UsersAttributes {
   id!: number;
+
   name?: string;
+
   lastName?: string;
+
   email?: string;
+
   phone?: string;
 
   // Users hasOne Roles via idUser
   idRoles_Roles!: Roles;
+
   getIdRoles!: Sequelize.BelongsToGetAssociationMixin<Roles>;
+
   setIdRoles!: Sequelize.BelongsToSetAssociationMixin<Roles, RolesId>;
+
   createIdRoles!: Sequelize.BelongsToCreateAssociationMixin<Roles>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Users {

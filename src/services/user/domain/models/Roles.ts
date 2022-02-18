@@ -14,6 +14,7 @@ export type RolesCreationAttributes = Optional<RolessAttributes, RolesOptionalAt
 
 export class Roles extends Model<RolessAttributes, RolesCreationAttributes> implements RolessAttributes {
   id!: number;
+
   rolName?: string;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Roles {

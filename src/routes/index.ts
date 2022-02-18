@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { config } from '../config/index';
+import config from '../config/index';
 
 class Routes {
   public configuration = config;
+
   public path = this.configuration.path;
 
   constructor() {
@@ -11,6 +12,7 @@ class Routes {
   }
 
   public router: Router;
+
   public routes() {
     this.router.get(this.path, (req, res, next) => {
       res.send(this.switchEnvRoutes(this.configuration.env));

@@ -7,7 +7,9 @@ import type { RolessAttributes, RolesCreationAttributes } from '../services/user
 export { _Users as Users };
 export { _Roles as Roles };
 
-export type { UsersAttributes, UsersCreationAttributes, RolessAttributes, RolesCreationAttributes };
+export type {
+  UsersAttributes, UsersCreationAttributes, RolessAttributes, RolesCreationAttributes
+};
 
 export function initModels(sequelize: Sequelize) {
   const Users = _Users.initModel(sequelize);
@@ -16,7 +18,7 @@ export function initModels(sequelize: Sequelize) {
   Users.hasOne(Roles, { as: 'Roles', foreignKey: 'idUser' });
 
   return {
-    Users: Users,
-    Roles: Roles
+    Users,
+    Roles
   };
 }

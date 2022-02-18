@@ -6,7 +6,8 @@
   "scripts": {
     "ts": "tsc -w",
     "dev": "nodemon ./dist/index",
-    "server": "tsc && node ./dist/index"
+    "server": "tsc && node ./dist/index",
+    "lint": "eslint ./src/**/*.ts --quiet  --fix"
   },
   "keywords": [],
   "author": "",

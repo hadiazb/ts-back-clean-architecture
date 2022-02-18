@@ -9,19 +9,22 @@ import { Users, UsersAttributes } from '../../../../database/init-model';
 export class UserRetriever implements IUserRetriever {
   constructor(private readonly userContext: UserContext, private readonly userRepository: UserRepository) {}
 
-  public async findAll(): Promise<Users[]> {
-    return await this.userRepository.findAll();
+  public async findAll(): Promise<Users[] | string> {
+    const response = await this.userRepository.findAll();
+    return await this.userContext.usersResponseValidation(response);
   }
 
-  public async findOne(id: string): Promise<Users | null> {
-    return await this.userRepository.findOne(id);
+  public async findOne(id: string): Promise<Users | string> {
+    const response = await this.userRepository.findOne(id);
+    return this.userContext.userResponseValidation(response);
   }
 
-  public async deleteOne(id: string): Promise<number> {
-    return await this.userRepository.deleteOne(id);
+  public async deleteOne(id: string): Promise<number | string> {
+    const response = await this.userRepository.deleteOne(id);
+    return await this.userContext.userDeleteResponseValidation(response, id);
   }
 
-  public async createOne(body: UsersAttributes): Promise<Users> {
+  public async createOne(body: UsersAttributes): Promise<Users | string> {
     return await this.userRepository.createOne(body);
   }
 

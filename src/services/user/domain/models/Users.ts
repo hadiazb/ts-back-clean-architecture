@@ -54,7 +54,8 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
         },
         email: {
           type: DataTypes.STRING,
-          allowNull: true
+          allowNull: true,
+          unique: true
         },
         phone: {
           type: DataTypes.STRING,

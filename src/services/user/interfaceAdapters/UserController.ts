@@ -8,19 +8,19 @@ import { Users, UsersAttributes } from '../domain/models/Users';
 export class UserController implements IUserController {
   constructor(private readonly userRetriever: UserRetriever) {}
 
-  public async findAll(): Promise<Users[]> {
+  public async findAll(): Promise<Users[] | string> {
     return await this.userRetriever.findAll();
   }
 
-  public async findOne(id: string): Promise<Users | null> {
+  public async findOne(id: string): Promise<Users | string> {
     return await this.userRetriever.findOne(id);
   }
 
-  public async deleteOne(id: string): Promise<number> {
+  public async deleteOne(id: string): Promise<number | string> {
     return await this.userRetriever.deleteOne(id);
   }
 
-  public async createOne(body: UsersAttributes): Promise<Users> {
+  public async createOne(body: UsersAttributes): Promise<Users | string> {
     return await this.userRetriever.createOne(body);
   }
 

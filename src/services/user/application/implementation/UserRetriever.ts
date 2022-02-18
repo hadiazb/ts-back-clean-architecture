@@ -1,4 +1,5 @@
 import { Service } from 'typedi';
+import { NextFunction, Request, Response } from 'express';
 
 import { IUserRetriever } from '../interface/IUserRetriever';
 import { UserContext } from '../../domain/UserContext';
@@ -12,7 +13,7 @@ export class UserRetriever implements IUserRetriever {
 
   public async findAll(): Promise<Users[] | string> {
     const response = await this.userRepository.findAll();
-    return await this.userContext.usersValidation(response);
+    return await this.userContext.usersIsEmply(response);
   }
 
   public async findOne(id: string): Promise<Users | string> {
@@ -32,5 +33,9 @@ export class UserRetriever implements IUserRetriever {
   public async updateOne(id: string, body: IUserCreator): Promise<string> {
     const response = await this.userRepository.updateOne(id, body);
     return this.userContext.userUpdateValidation(response[0], id);
+  }
+
+  public validateAuth(req: Request, res: Response, next: NextFunction) {
+    this.userContext.validateAuth(req, res, next);
   }
 }

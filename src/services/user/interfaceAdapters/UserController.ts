@@ -1,4 +1,5 @@
 import { Service } from 'typedi';
+import { NextFunction, Request, Response } from 'express';
 
 import { IUserController } from './IUserController';
 import { UserRetriever } from '../application/implementation/UserRetriever';
@@ -27,5 +28,9 @@ export class UserController implements IUserController {
 
   public async updateOne(id: string, body: IUserCreator): Promise<string> {
     return await this.userRetriever.updateOne(id, body);
+  }
+
+  public validateAuth(req: Request, res: Response, next: NextFunction) {
+    this.userRetriever.validateAuth(req, res, next);
   }
 }

@@ -9,11 +9,12 @@ export interface UsersAttributes {
   lastName?: string;
   email?: string;
   phone?: string;
+  isBlock?: boolean;
 }
 
 export type UsersPk = 'id';
 export type UsersId = Users[UsersPk];
-export type UsersOptionalAttributes = 'id' | 'name' | 'lastName' | 'email' | 'phone';
+export type UsersOptionalAttributes = 'id' | 'name' | 'lastName' | 'email' | 'phone' | 'isBlock';
 export type UsersCreationAttributes = Optional<UsersAttributes, UsersOptionalAttributes>;
 
 export class Users extends Model<UsersAttributes, UsersCreationAttributes> implements UsersAttributes {
@@ -22,6 +23,7 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
   lastName?: string;
   email?: string;
   phone?: string;
+  isBlock?: boolean;
 
   // Users hasOne Roles via idUser
   idRoles_Roles!: Roles;
@@ -59,6 +61,10 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
         },
         phone: {
           type: DataTypes.STRING,
+          allowNull: true
+        },
+        isBlock: {
+          type: DataTypes.BOOLEAN,
           allowNull: true
         }
       },

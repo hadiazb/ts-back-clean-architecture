@@ -10,10 +10,13 @@ export class UserContext implements IUserContext {
   constructor() {}
 
   public validateAuth(req: Request, res: Response, next: NextFunction) {
-    boom.unauthorized('No estas autorizado');
+    if (1 < 0) {
+      throw boom.unauthorized('No estas autorizado');
+    }
+    next();
   }
 
-  public async usersValidation(users: Users[]): Promise<Users[] | string> {
+  public async usersIsEmply(users: Users[]): Promise<Users[] | string> {
     if (!users.length) {
       return 'The Users table is emply';
     }
@@ -23,6 +26,9 @@ export class UserContext implements IUserContext {
 
   public async userValidation(user: Users | null): Promise<Users | string> {
     if (user) {
+      if (user.isBlock) {
+        throw boom.conflict('User is block');
+      }
       return await user;
     }
 

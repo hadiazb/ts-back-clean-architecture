@@ -11,7 +11,7 @@ export class UserRepository implements IUserRepository {
     let response: Users[];
     try {
       response = await Users.findAll({
-        attributes: ['id', 'name', 'lastName', 'email', 'phone'],
+        attributes: ['id', 'name', 'lastName', 'email', 'phone', 'isBlock'],
         include: [
           {
             model: Roles,
@@ -20,8 +20,8 @@ export class UserRepository implements IUserRepository {
           }
         ]
       });
-    } catch (error) {
-      throw new Error('Error en la peticion');
+    } catch (error: any) {
+      return error.message;
     }
     return response;
   }
@@ -29,7 +29,7 @@ export class UserRepository implements IUserRepository {
   public async findOne(id: string): Promise<Users | null> {
     try {
       return await Users.findByPk(id, {
-        attributes: ['id', 'name', 'lastName', 'email', 'phone'],
+        attributes: ['id', 'name', 'lastName', 'email', 'phone', 'isBlock'],
         include: [
           {
             model: Roles,
@@ -58,7 +58,7 @@ export class UserRepository implements IUserRepository {
   public async createOne(body: IUserCreator): Promise<Users | string> {
     let response;
     try {
-      response = await Users.create(body);
+      response = await Users.create({ ...body, isBlock: true });
       await Roles.create({ idUser: response.id, rolName: 'usuario regular' });
       await Auth.create({ idUser: response.id, password: bcrypt.hashSync(body.password, 10) });
       return response;

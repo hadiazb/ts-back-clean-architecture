@@ -62,4 +62,8 @@ export default class UserApi {
         next(err);
       });
   }
+
+  public validateAuth(req: Request, res: Response, next: NextFunction) {
+    this.userController.validateAuth(req, res, next);
+  }
 }

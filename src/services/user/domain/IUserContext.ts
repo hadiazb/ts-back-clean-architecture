@@ -4,6 +4,8 @@ import { Users } from '../../../database/init-model';
 
 export interface IUserContext {
   validateAuth(req: Request, res: Response, next: NextFunction): void;
-  userResponseValidation(user: Users | null): Promise<Users | string>;
-  usersResponseValidation(users: Users[]): Promise<Users[] | string>;
+  userValidation(user: Users | null): Promise<Users | string>;
+  usersValidation(users: Users[]): Promise<Users[] | string>;
+  userDeleteValidation(response: number | string, id: string): Promise<string | number>;
+  userUpdateValidation(response: number, id: string): Promise<string>;
 }

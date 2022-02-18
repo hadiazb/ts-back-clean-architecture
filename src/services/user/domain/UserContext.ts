@@ -13,7 +13,7 @@ export class UserContext implements IUserContext {
     boom.unauthorized('No estas autorizado');
   }
 
-  public async usersResponseValidation(users: Users[]): Promise<Users[] | string> {
+  public async usersValidation(users: Users[]): Promise<Users[] | string> {
     if (!users.length) {
       return 'The Users table is emply';
     }
@@ -21,7 +21,7 @@ export class UserContext implements IUserContext {
     return await users;
   }
 
-  public async userResponseValidation(user: Users | null): Promise<Users | string> {
+  public async userValidation(user: Users | null): Promise<Users | string> {
     if (user) {
       return await user;
     }
@@ -29,7 +29,7 @@ export class UserContext implements IUserContext {
     throw boom.notFound('User not found');
   }
 
-  public async userDeleteResponseValidation(response: number | string, id: string): Promise<string | number> {
+  public async userDeleteValidation(response: number | string, id: string): Promise<string | number> {
     if (typeof response === 'string') {
       return await response;
     }
@@ -44,7 +44,7 @@ export class UserContext implements IUserContext {
     return await response;
   }
 
-  public async userUpdateResponseValidation(response: number, id: string): Promise<string> {
+  public async userUpdateValidation(response: number, id: string): Promise<string> {
     if (response === 0) {
       throw boom.notFound(`User with id=${id} not found`);
     }

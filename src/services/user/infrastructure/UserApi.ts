@@ -2,18 +2,17 @@ import { Request, Response, NextFunction } from 'express';
 import { Service } from 'typedi';
 
 import { UserController } from '../interfaceAdapters/UserController';
+import { ApiResponse } from '../../../utils/response.handler';
 
 @Service()
 export default class UserApi {
-  constructor(private readonly userController: UserController) {}
+  constructor(private readonly userController: UserController, private readonly apiResponse: ApiResponse) {}
 
   public async findAll(req: Request, res: Response, next: NextFunction) {
     await this.userController
       .findAll()
       .then((response) => {
-        res.send({
-          response
-        });
+        this.apiResponse.success(req, res, { status: 200, response });
       })
       .catch((err) => {
         next(err);
@@ -24,9 +23,7 @@ export default class UserApi {
     await this.userController
       .findOne(req.params.id)
       .then((response) => {
-        res.send({
-          response
-        });
+        this.apiResponse.success(req, res, { status: 200, response });
       })
       .catch((err) => {
         next(err);
@@ -37,9 +34,7 @@ export default class UserApi {
     await this.userController
       .deleteOne(req.params.id)
       .then((response) => {
-        res.send({
-          response
-        });
+        this.apiResponse.success(req, res, { status: 200, response });
       })
       .catch((err) => {
         next(err);
@@ -50,9 +45,7 @@ export default class UserApi {
     await this.userController
       .createOne(req.body)
       .then((response) => {
-        res.send({
-          response
-        });
+        this.apiResponse.success(req, res, { status: 200, response });
       })
       .catch((err) => {
         next(err);
@@ -63,9 +56,7 @@ export default class UserApi {
     await this.userController
       .updateOne(req.params.id, req.body)
       .then((response) => {
-        res.send({
-          response
-        });
+        this.apiResponse.success(req, res, { status: 200, response });
       })
       .catch((err) => {
         next(err);

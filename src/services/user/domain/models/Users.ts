@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
+import { Auth, AuthId } from './Auth';
 import { Roles, RolesId } from './Roles';
 
 export interface UsersAttributes {
@@ -17,23 +18,22 @@ export type UsersCreationAttributes = Optional<UsersAttributes, UsersOptionalAtt
 
 export class Users extends Model<UsersAttributes, UsersCreationAttributes> implements UsersAttributes {
   id!: number;
-
   name?: string;
-
   lastName?: string;
-
   email?: string;
-
   phone?: string;
 
   // Users hasOne Roles via idUser
   idRoles_Roles!: Roles;
-
   getIdRoles!: Sequelize.BelongsToGetAssociationMixin<Roles>;
-
   setIdRoles!: Sequelize.BelongsToSetAssociationMixin<Roles, RolesId>;
-
   createIdRoles!: Sequelize.BelongsToCreateAssociationMixin<Roles>;
+
+  // Auth hasOne Roles via idUser
+  idAuth_Auth!: Auth;
+  getIdAuth!: Sequelize.BelongsToGetAssociationMixin<Auth>;
+  setIdAuth!: Sequelize.BelongsToSetAssociationMixin<Auth, AuthId>;
+  createIdAuth!: Sequelize.BelongsToCreateAssociationMixin<Auth>;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Users {
     return Users.init(
@@ -46,15 +46,15 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
         },
         name: {
           type: DataTypes.STRING,
-          allowNull: true
+          allowNull: false
         },
         lastName: {
           type: DataTypes.STRING,
-          allowNull: true
+          allowNull: false
         },
         email: {
           type: DataTypes.STRING,
-          allowNull: true,
+          allowNull: false,
           unique: true
         },
         phone: {

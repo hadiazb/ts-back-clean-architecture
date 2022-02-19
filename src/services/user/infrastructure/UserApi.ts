@@ -66,4 +66,20 @@ export default class UserApi {
   public validateAuth(req: Request, res: Response, next: NextFunction) {
     this.userController.validateAuth(req, res, next);
   }
+
+  public createValidator(req: any, res: Response, next: NextFunction) {
+    this.userController.createValidator(req, res, next);
+  }
+
+  public getValidator(req: any, res: Response, next: NextFunction) {
+    this.userController.getValidator(req, res, next);
+  }
+
+  public deleteValidator(req: any, res: Response, next: NextFunction) {
+    this.userController.deleteValidator(req, res, next);
+  }
+
+  public updateValidator(req: any, res: Response, next: NextFunction) {
+    this.userController.updateValidator(req, res, next);
+  }
 }

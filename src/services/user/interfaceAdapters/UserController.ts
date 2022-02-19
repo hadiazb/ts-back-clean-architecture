@@ -33,4 +33,20 @@ export class UserController implements IUserController {
   public validateAuth(req: Request, res: Response, next: NextFunction) {
     this.userRetriever.validateAuth(req, res, next);
   }
+
+  public createValidator(req: any, res: Response, next: NextFunction) {
+    this.userRetriever.createValidator(req, res, next);
+  }
+
+  public getValidator(req: any, res: Response, next: NextFunction) {
+    this.userRetriever.getValidator(req, res, next);
+  }
+
+  public deleteValidator(req: any, res: Response, next: NextFunction) {
+    this.userRetriever.deleteValidator(req, res, next);
+  }
+
+  public updateValidator(req: any, res: Response, next: NextFunction) {
+    this.userRetriever.updateValidator(req, res, next);
+  }
 }

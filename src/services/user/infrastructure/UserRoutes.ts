@@ -56,21 +56,26 @@ class UserRoutes {
     this.router.get(
       '/findOne/:id',
       (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => userApi.getValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.findOne(req, res, next)
     );
     this.router.delete(
       '/deleteOne/:id',
       (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => userApi.deleteValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.deleteOne(req, res, next)
     );
     this.router.post(
       '/createOne',
       (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => userApi.createValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.createOne(req, res, next)
     );
     this.router.put(
       '/updateOne/:id',
       (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => userApi.getValidator(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => userApi.updateValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.updateOne(req, res, next)
     );
   }

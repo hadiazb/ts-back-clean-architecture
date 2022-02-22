@@ -8,4 +8,16 @@ export interface IUserCreator {
   phone?: string;
   updatedAt?: string;
   createdAt?: string;
+  adress?: Adress[];
+}
+
+export interface Adress {
+  id?: number;
+  idUser?: number;
+  city?: string;
+  state?: string;
+  country?: string;
+  postalCode?: number;
+  updatedAt?: string;
+  createdAt?: string;
 }

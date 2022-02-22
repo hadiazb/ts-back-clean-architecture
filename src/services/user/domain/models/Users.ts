@@ -2,6 +2,7 @@ import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 import { Auth, AuthId } from './Auth';
 import { Roles, RolesId } from './Roles';
+import { Adress, AdressId } from './Adress';
 
 export interface UsersAttributes {
   id: number;
@@ -27,15 +28,28 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
 
   // Users hasOne Roles via idUser
   idRoles_Roles!: Roles;
-  getIdRoles!: Sequelize.BelongsToGetAssociationMixin<Roles>;
-  setIdRoles!: Sequelize.BelongsToSetAssociationMixin<Roles, RolesId>;
-  createIdRoles!: Sequelize.BelongsToCreateAssociationMixin<Roles>;
+  getIdRoles!: Sequelize.HasOneGetAssociationMixin<Roles>;
+  setIdRoles!: Sequelize.HasOneSetAssociationMixin<Roles, RolesId>;
+  createIdRoles!: Sequelize.HasOneCreateAssociationMixin<Roles>;
 
   // Auth hasOne Roles via idUser
   idAuth_Auth!: Auth;
-  getIdAuth!: Sequelize.BelongsToGetAssociationMixin<Auth>;
-  setIdAuth!: Sequelize.BelongsToSetAssociationMixin<Auth, AuthId>;
-  createIdAuth!: Sequelize.BelongsToCreateAssociationMixin<Auth>;
+  getIdAuth!: Sequelize.HasOneGetAssociationMixin<Auth>;
+  setIdAuth!: Sequelize.HasOneSetAssociationMixin<Auth, AuthId>;
+  createIdAuth!: Sequelize.HasOneCreateAssociationMixin<Auth>;
+
+  // Adress hasMany Roles via idUser
+  Adress!: Adress[];
+  getAdress!: Sequelize.HasManyGetAssociationsMixin<Adress>;
+  setAdress!: Sequelize.HasManySetAssociationsMixin<Adress, AdressId>;
+  addAdres!: Sequelize.HasManyAddAssociationMixin<Adress, AdressId>;
+  addAdress!: Sequelize.HasManyAddAssociationsMixin<Adress, AdressId>;
+  createAdress!: Sequelize.HasManyCreateAssociationMixin<Adress>;
+  removeAdres!: Sequelize.HasManyRemoveAssociationMixin<Adress, AdressId>;
+  removeAdress!: Sequelize.HasManyRemoveAssociationsMixin<Adress, AdressId>;
+  hasAdres!: Sequelize.HasManyRemoveAssociationMixin<Adress, AdressId>;
+  hasAdress!: Sequelize.HasManyRemoveAssociationsMixin<Adress, AdressId>;
+  countAdress!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Users {
     return Users.init(

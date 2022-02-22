@@ -19,6 +19,7 @@ export class Server implements IServer {
   public database = sequelize;
   public path = this.configuration.path;
   public errorHandler: ErrorsHandler = new ErrorsHandler();
+  public whitelist: string[] = ['http://localhost:3000', 'https://myapp.co'];
 
   constructor() {
     this.application = express();
@@ -35,7 +36,7 @@ export class Server implements IServer {
         extended: false
       })
     );
-    this.application.use(cors());
+    this.application.use(this.corsValidator);
     this.application.use(this.errorHandler.logErrors);
     this.application.use(this.errorHandler.boomErrorHandler);
     this.application.use(this.errorHandler.errorHandler);
@@ -70,6 +71,18 @@ export class Server implements IServer {
 
   public initModels() {
     initModels(this.database);
+  }
+
+  public corsValidator() {
+    return cors({
+      origin: (origin, callback) => {
+        if (this.whitelist.includes(origin!)) {
+          callback(null, true);
+        } else {
+          callback(new Error('no permitido'));
+        }
+      }
+    });
   }
 
   public listenServer() {

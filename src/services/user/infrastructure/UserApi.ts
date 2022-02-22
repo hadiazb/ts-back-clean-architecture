@@ -26,6 +26,7 @@ export default class UserApi {
         this.apiResponse.success(req, res, { status: 200, response });
       })
       .catch((err) => {
+        console.log(err);
         next(err);
       });
   }

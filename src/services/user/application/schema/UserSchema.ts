@@ -11,6 +11,8 @@ export default class UserSchema {
   public rolName = Joi.string();
   public phone = Joi.string().min(7).max(15);
   public isBlock = Joi.boolean();
+  public place = Joi.string().min(2).max(30);
+  public number = Joi.number();
 
   public createUserSchema() {
     return Joi.object({
@@ -38,7 +40,17 @@ export default class UserSchema {
       password: this.password,
       isBlock: this.isBlock,
       phone: this.phone,
-      rolName: this.rolName
+      rolName: this.rolName,
+      adress: Joi.array().items(
+        Joi.object({
+          id: this.id,
+          idUser: this.id,
+          city: this.place,
+          state: this.place,
+          country: this.place,
+          postalCode: this.number
+        })
+      )
     });
   }
 }

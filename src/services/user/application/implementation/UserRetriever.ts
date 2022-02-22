@@ -18,18 +18,15 @@ export class UserRetriever implements IUserRetriever {
   ) {}
 
   public async findAll(): Promise<Users[] | string> {
-    const response = await this.userRepository.findAll();
-    return await this.userContext.usersIsEmply(response);
+    return await await this.userRepository.findAll();
   }
 
   public async findOne(id: string): Promise<Users | string> {
-    const response = await this.userRepository.findOne(id);
-    return this.userContext.userValidation(response);
+    return await this.userRepository.findOne(id);
   }
 
   public async deleteOne(id: string): Promise<number | string> {
-    const response = await this.userRepository.deleteOne(id);
-    return await this.userContext.userDeleteValidation(response, id);
+    return await this.userRepository.deleteOne(id);
   }
 
   public async createOne(body: IUserCreator): Promise<Users | string> {
@@ -37,8 +34,7 @@ export class UserRetriever implements IUserRetriever {
   }
 
   public async updateOne(id: string, body: IUserCreator): Promise<string> {
-    const response = await this.userRepository.updateOne(id, body);
-    return this.userContext.userUpdateValidation(response[0], id);
+    return await this.userRepository.updateOne(id, body);
   }
 
   public validateAuth(req: Request, res: Response, next: NextFunction) {

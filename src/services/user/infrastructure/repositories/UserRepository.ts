@@ -1,15 +1,16 @@
 import { Service } from 'typedi';
 import bcrypt from 'bcrypt';
+import boom from '@hapi/boom';
 
 import { IUserRepository } from './IUserRepository';
-import { Users, Roles, Auth } from '../../../../database/init-model';
+import { Users, Roles, Auth, Adress } from '../../../../database/init-model';
 import { IUserCreator } from '../../application/interface/IUserCreator';
 
 @Service()
 export class UserRepository implements IUserRepository {
-  public async findAll(): Promise<Users[]> {
-    let response: Users[];
+  public async findAll(): Promise<Users[] | string> {
     try {
+      let response: Users[];
       response = await Users.findAll({
         attributes: ['id', 'name', 'lastName', 'email', 'phone', 'isBlock'],
         include: [
@@ -17,41 +18,74 @@ export class UserRepository implements IUserRepository {
             model: Roles,
             as: 'roles',
             attributes: ['id', 'rolName', 'idUser']
+          },
+          {
+            model: Adress,
+            as: 'adress',
+            attributes: ['id', 'city', 'country', 'state', 'postalCode', 'idUser']
           }
         ]
       });
+      if (!response.length) {
+        return 'The Users table is emply';
+      }
+      return response;
     } catch (error: any) {
       return error.message;
     }
-    return response;
   }
 
-  public async findOne(id: string): Promise<Users | null> {
+  public async findOne(id: string): Promise<Users | string> {
     try {
-      return await Users.findByPk(id, {
+      const response = await Users.findByPk(id, {
         attributes: ['id', 'name', 'lastName', 'email', 'phone', 'isBlock'],
         include: [
           {
             model: Roles,
             as: 'roles',
             attributes: ['id', 'rolName', 'idUser']
+          },
+          {
+            model: Adress,
+            as: 'adress',
+            attributes: ['id', 'city', 'country', 'state', 'postalCode', 'idUser']
           }
         ]
       });
+
+      if (!response) {
+        throw boom.notFound(`The user with ${id} not found`);
+      }
+
+      return response;
     } catch (error: any) {
-      return await error.parent.detail;
+      throw boom.notFound(`The user with ${id} not found`);
     }
   }
 
   public async deleteOne(id: string): Promise<number | string> {
     try {
-      return await Users.destroy({
+      const response = await Users.destroy({
         where: {
           id
         }
       });
+
+      if (typeof response === 'string') {
+        return await response;
+      }
+
+      if (response === 1) {
+        return await `Usuario con id=${id} eliminado`;
+      }
+
+      if (response === 0) {
+        throw boom.notFound(`User with id=${id} not found`);
+      }
+
+      return await response;
     } catch (error: any) {
-      return error.message;
+      throw boom.notFound(`User with id=${id} not found`);
     }
   }
 
@@ -67,7 +101,7 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  public async updateOne(id: string, body: IUserCreator): Promise<[number, Users[]]> {
+  public async updateOne(id: string, body: IUserCreator): Promise<string> {
     let response;
     try {
       response = await Users.update(body, {
@@ -89,11 +123,43 @@ export class UserRepository implements IUserRepository {
             idUser: user?.id
           }
         });
+
+        await this.upsertUserAdress(body, user!.id);
+        return await `User with id=${id} was updated`;
       }
 
-      return response;
+      throw boom.notFound(`User with id=${id} not found`);
     } catch (error: any) {
       return error.message;
+    }
+  }
+
+  public async upsertUserAdress(body: IUserCreator, id: number) {
+    const { adress } = body;
+    if (adress?.length) {
+      adress?.map(async (adres) => {
+        if (adres.id) {
+          try {
+            await Adress.update(
+              {
+                city: adres.city,
+                country: adres.country,
+                state: adres.state,
+                postalCode: adres.postalCode
+              },
+              {
+                where: {
+                  id
+                }
+              }
+            );
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          await Adress.create({ ...adres, idUser: id });
+        }
+      });
     }
   }
 }

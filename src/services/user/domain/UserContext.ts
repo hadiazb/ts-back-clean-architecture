@@ -17,19 +17,11 @@ export class UserContext implements IUserContext {
 
   public validatorHandler(req: any, res: Response, next: NextFunction, schema: Joi.AnySchema, property: any) {
     const data = req[property];
-    const { error } = schema.validate(data);
+    const { error } = schema.validate(data, { abortEarly: false });
     if (error) {
       next(boom.badRequest(error.message));
     }
     next();
-  }
-
-  public async usersIsEmply(users: Users[]): Promise<Users[] | string> {
-    if (!users.length) {
-      return 'The Users table is emply';
-    }
-
-    return await users;
   }
 
   public async userValidation(user: Users | null): Promise<Users | string> {
@@ -41,27 +33,5 @@ export class UserContext implements IUserContext {
     }
 
     throw boom.notFound('User not found');
-  }
-
-  public async userDeleteValidation(response: number | string, id: string): Promise<string | number> {
-    if (typeof response === 'string') {
-      return await response;
-    }
-    if (response === 1) {
-      return await `Usuario con id=${id} eliminado`;
-    }
-
-    if (response === 0) {
-      throw boom.notFound(`User with id=${id} not found`);
-    }
-
-    return await response;
-  }
-
-  public async userUpdateValidation(response: number, id: string): Promise<string> {
-    if (response === 0) {
-      throw boom.notFound(`User with id=${id} not found`);
-    }
-    return `User with id=${id} was updated`;
   }
 }

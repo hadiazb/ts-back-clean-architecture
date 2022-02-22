@@ -64,6 +64,17 @@ export default class UserApi {
       });
   }
 
+  public async createUserAdress(req: Request, res: Response, next: NextFunction) {
+    await this.userController
+      .createUserAdress(req.params.id, req.body)
+      .then((response) => {
+        this.apiResponse.success(req, res, { status: 200, response });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+
   public validateAuth(req: Request, res: Response, next: NextFunction) {
     this.userController.validateAuth(req, res, next);
   }
@@ -82,5 +93,9 @@ export default class UserApi {
 
   public updateValidator(req: any, res: Response, next: NextFunction) {
     this.userController.updateValidator(req, res, next);
+  }
+
+  public createUserAdressSchema(req: any, res: Response, next: NextFunction) {
+    this.userController.createUserAdressSchema(req, res, next);
   }
 }

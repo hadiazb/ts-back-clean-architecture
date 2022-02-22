@@ -123,43 +123,30 @@ export class UserRepository implements IUserRepository {
             idUser: user?.id
           }
         });
-
-        await this.upsertUserAdress(body, user!.id);
         return await `User with id=${id} was updated`;
       }
 
       throw boom.notFound(`User with id=${id} not found`);
     } catch (error: any) {
-      return error.message;
+      throw boom.notFound(`User with id=${id} not found`);
     }
   }
 
-  public async upsertUserAdress(body: IUserCreator, id: number) {
-    const { adress } = body;
-    if (adress?.length) {
-      adress?.map(async (adres) => {
-        if (adres.id) {
-          try {
-            await Adress.update(
-              {
-                city: adres.city,
-                country: adres.country,
-                state: adres.state,
-                postalCode: adres.postalCode
-              },
-              {
-                where: {
-                  id
-                }
-              }
-            );
-          } catch (error) {
-            console.log(error);
-          }
-        } else {
-          await Adress.create({ ...adres, idUser: id });
-        }
-      });
+  public async createUserAdress(id: string, body: Adress[]): Promise<string> {
+    try {
+      const user = await Users.findByPk(id);
+      if (user) {
+        body.forEach(async (adress) => {
+          await Adress.create({
+            idUser: parseInt(id),
+            ...adress
+          });
+        });
+        return `Adress User with id=${id} created`;
+      }
+      throw boom.notFound(`The user with ${id} not found`);
+    } catch (error: any) {
+      throw boom.notFound(`The user with ${id} not found`);
     }
   }
 }

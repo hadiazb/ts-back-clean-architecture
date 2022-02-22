@@ -3,12 +3,13 @@ import { NextFunction, Request, Response } from 'express';
 
 import { IUserController } from './IUserController';
 import { UserRetriever } from '../application/implementation/UserRetriever';
-import { Users } from '../domain/models/Users';
 import { IUserCreator } from '../application/interface/IUserCreator';
+import { Adress, Users } from '../../../database/init-model';
+import { UserValidator } from '../application/implementation/UserValidator';
 
 @Service()
 export class UserController implements IUserController {
-  constructor(private readonly userRetriever: UserRetriever) {}
+  constructor(private readonly userRetriever: UserRetriever, private readonly userValidator: UserValidator) {}
 
   public async findAll(): Promise<Users[] | string> {
     return await this.userRetriever.findAll();
@@ -30,23 +31,31 @@ export class UserController implements IUserController {
     return await this.userRetriever.updateOne(id, body);
   }
 
-  public validateAuth(req: Request, res: Response, next: NextFunction) {
-    this.userRetriever.validateAuth(req, res, next);
+  public async createUserAdress(id: string, body: Adress[]): Promise<string> {
+    return await this.userRetriever.createUserAdress(id, body);
   }
 
-  public createValidator(req: any, res: Response, next: NextFunction) {
-    this.userRetriever.createValidator(req, res, next);
+  public validateAuth(req: Request, res: Response, next: NextFunction): void {
+    this.userValidator.validateAuth(req, res, next);
   }
 
-  public getValidator(req: any, res: Response, next: NextFunction) {
-    this.userRetriever.getValidator(req, res, next);
+  public createValidator(req: any, res: Response, next: NextFunction): void {
+    this.userValidator.createValidator(req, res, next);
   }
 
-  public deleteValidator(req: any, res: Response, next: NextFunction) {
-    this.userRetriever.deleteValidator(req, res, next);
+  public getValidator(req: any, res: Response, next: NextFunction): void {
+    this.userValidator.getValidator(req, res, next);
   }
 
-  public updateValidator(req: any, res: Response, next: NextFunction) {
-    this.userRetriever.updateValidator(req, res, next);
+  public deleteValidator(req: any, res: Response, next: NextFunction): void {
+    this.userValidator.deleteValidator(req, res, next);
+  }
+
+  public updateValidator(req: any, res: Response, next: NextFunction): void {
+    this.userValidator.updateValidator(req, res, next);
+  }
+
+  public createUserAdressSchema(req: any, res: Response, next: NextFunction): void {
+    this.userValidator.createUserAdressSchema(req, res, next);
   }
 }

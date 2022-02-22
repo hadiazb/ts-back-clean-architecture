@@ -78,6 +78,13 @@ class UserRoutes {
       (req: Request, res: Response, next: NextFunction) => userApi.updateValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.updateOne(req, res, next)
     );
+    this.router.post(
+      '/createUserAdress/:id',
+      (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => userApi.getValidator(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => userApi.createUserAdressSchema(req, res, next),
+      (req: Request, res: Response, next: NextFunction) => userApi.createUserAdress(req, res, next)
+    );
   }
 }
 

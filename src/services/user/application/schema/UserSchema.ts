@@ -40,17 +40,17 @@ export default class UserSchema {
       password: this.password,
       isBlock: this.isBlock,
       phone: this.phone,
-      rolName: this.rolName,
-      adress: Joi.array().items(
-        Joi.object({
-          id: this.id,
-          idUser: this.id,
-          city: this.place,
-          state: this.place,
-          country: this.place,
-          postalCode: this.number
-        })
-      )
+      rolName: this.rolName
     });
+  }
+  public createUserAdressSchema() {
+    return Joi.array().items(
+      Joi.object({
+        city: this.place,
+        state: this.place,
+        country: this.place,
+        postalCode: this.number
+      })
+    );
   }
 }

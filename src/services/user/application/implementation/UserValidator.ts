@@ -1,0 +1,35 @@
+import { Service } from 'typedi';
+import { NextFunction, Request, Response } from 'express';
+
+import { UserContext } from '../../domain/UserContext';
+import UserSchema from '../schema/UserSchema';
+import { IUserValidator } from '../interface/IUserValidator';
+
+@Service()
+export class UserValidator implements IUserValidator {
+  constructor(private readonly userContext: UserContext, private readonly userSchema: UserSchema) {}
+
+  public validateAuth(req: Request, res: Response, next: NextFunction) {
+    this.userContext.validateAuth(req, res, next);
+  }
+
+  public createValidator(req: any, res: Response, next: NextFunction) {
+    this.userContext.validatorHandler(req, res, next, this.userSchema.createUserSchema(), 'body');
+  }
+
+  public getValidator(req: any, res: Response, next: NextFunction) {
+    this.userContext.validatorHandler(req, res, next, this.userSchema.getUserSchema(), 'params');
+  }
+
+  public deleteValidator(req: any, res: Response, next: NextFunction) {
+    this.userContext.validatorHandler(req, res, next, this.userSchema.deleteUserSchema(), 'params');
+  }
+
+  public updateValidator(req: any, res: Response, next: NextFunction) {
+    this.userContext.validatorHandler(req, res, next, this.userSchema.updateUserSchema(), 'body');
+  }
+
+  public createUserAdressSchema(req: any, res: Response, next: NextFunction) {
+    this.userContext.validatorHandler(req, res, next, this.userSchema.createUserAdressSchema(), 'body');
+  }
+}

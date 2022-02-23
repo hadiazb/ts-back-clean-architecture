@@ -1,23 +1,24 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
 
-export interface AuthAttributes {
+export interface RolesAttributes {
   id: number;
-  password: string;
+  rolName?: string;
   idUser?: number;
 }
 
-export type AuthPk = 'id';
-export type AuthId = Auth[AuthPk];
-export type AuthOptionalAttributes = 'id' | 'password';
-export type AuthCreationAttributes = Optional<AuthAttributes, AuthOptionalAttributes>;
+export type RolesPk = 'id';
+export type RolesId = Roles[RolesPk];
+export type RolesOptionalAttributes = 'id' | 'rolName';
+export type RolesCreationAttributes = Optional<RolesAttributes, RolesOptionalAttributes>;
 
-export class Auth extends Model<AuthAttributes, AuthCreationAttributes> implements AuthAttributes {
+export class Roles extends Model<RolesAttributes, RolesCreationAttributes> implements RolesAttributes {
   id!: number;
-  password!: string;
 
-  static initModel(sequelize: Sequelize.Sequelize): typeof Auth {
-    return Auth.init(
+  rolName?: string;
+
+  static initModel(sequelize: Sequelize.Sequelize): typeof Roles {
+    return Roles.init(
       {
         id: {
           autoIncrement: true,
@@ -25,9 +26,9 @@ export class Auth extends Model<AuthAttributes, AuthCreationAttributes> implemen
           allowNull: false,
           primaryKey: true
         },
-        password: {
+        rolName: {
           type: DataTypes.STRING,
-          allowNull: false
+          allowNull: true
         },
         idUser: {
           type: DataTypes.INTEGER,
@@ -36,12 +37,12 @@ export class Auth extends Model<AuthAttributes, AuthCreationAttributes> implemen
       },
       {
         sequelize,
-        tableName: 'Auth',
+        tableName: 'Roles',
         schema: 'public',
         timestamps: true,
         indexes: [
           {
-            name: 'Auth_pkey',
+            name: 'Roles_pkey',
             unique: true,
             fields: [{ name: 'id' }]
           }

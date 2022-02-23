@@ -12,8 +12,9 @@ import sequelize from '../database/connection';
 import userRoutes from '../services/user/infrastructure/UserRoutes';
 import { initModels } from '../database/init-model';
 import { ErrorsHandler } from '../utils/error.handler';
+import { AuthLogin } from '../utils/auth';
 
-export class Server implements IServer {
+export class Server extends AuthLogin implements IServer {
   public application!: express.Application;
   public configuration: Config = config;
   public database = sequelize;
@@ -22,6 +23,7 @@ export class Server implements IServer {
   public whitelist: string[] = ['http://localhost:3000', 'https://myapp.co'];
 
   constructor() {
+    super();
     this.application = express();
     this.middlewaresBefore();
     this.routes();
@@ -40,6 +42,7 @@ export class Server implements IServer {
     this.application.use(this.errorHandler.logErrors);
     this.application.use(this.errorHandler.boomErrorHandler);
     this.application.use(this.errorHandler.errorHandler);
+    this.localStrategyImplement();
   }
 
   public middlewaresBefore() {

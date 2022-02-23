@@ -8,7 +8,7 @@ export interface UsersAttributes {
   id: number;
   name?: string;
   lastName?: string;
-  email?: string;
+  email: string;
   phone?: string;
   isBlock?: boolean;
 }
@@ -18,11 +18,14 @@ export type UsersId = Users[UsersPk];
 export type UsersOptionalAttributes = 'id' | 'name' | 'lastName' | 'email' | 'phone' | 'isBlock';
 export type UsersCreationAttributes = Optional<UsersAttributes, UsersOptionalAttributes>;
 
-export class Users extends Model<UsersAttributes, UsersCreationAttributes> implements UsersAttributes {
+export class Users
+  extends Model<UsersAttributes, UsersCreationAttributes>
+  implements UsersAttributes
+{
   id!: number;
   name?: string;
   lastName?: string;
-  email?: string;
+  email!: string;
   phone?: string;
   isBlock?: boolean;
 

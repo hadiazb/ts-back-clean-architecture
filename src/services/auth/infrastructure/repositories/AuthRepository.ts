@@ -1,8 +1,10 @@
 import { Service } from 'typedi';
 import boom from '@hapi/boom';
+import bcrypt from 'bcrypt';
 
 import { Auth, Users, Roles } from '../../../../database/init-model';
 import { IAuthRepository } from './IAuthRepository';
+import { IUserCreator } from '../../application/interface/IAuthCreator';
 
 @Service()
 export class AuthRepository implements IAuthRepository {
@@ -35,5 +37,22 @@ export class AuthRepository implements IAuthRepository {
     } catch (error: any) {
       throw boom.unauthorized();
     }
+  }
+
+  public async register(body: IUserCreator): Promise<Users> {
+    let response;
+    try {
+      response = await Users.create({ ...body, isBlock: true });
+      await Roles.create({ idUser: response.id, rolName: 'usuario regular' });
+      await Auth.create({ idUser: response.id, password: bcrypt.hashSync(body.password, 10) });
+      return response;
+    } catch (error: any) {
+      throw new Error('Error createone');
+    }
+  }
+
+  public async login(body: any) {
+    try {
+    } catch (error) {}
   }
 }

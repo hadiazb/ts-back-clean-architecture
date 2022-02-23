@@ -3,7 +3,6 @@ import Container from 'typedi';
 
 import UserApi from './UserApi';
 import config from '../../../config/index';
-import passport from 'passport';
 
 class UserRoutes {
   public router: Router;
@@ -83,14 +82,10 @@ class UserRoutes {
       '/createUserAdress/:id',
       (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.getValidator(req, res, next),
-      (req: Request, res: Response, next: NextFunction) => userApi.createUserAdressSchema(req, res, next),
+      (req: Request, res: Response, next: NextFunction) =>
+        userApi.createUserAdressSchema(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.createUserAdress(req, res, next)
     );
-    this.router.post('/login', passport.authenticate('local', { session: false }), (req: Request, res: Response, next: NextFunction) => {
-      res.send({
-        message: req.user
-      });
-    });
   }
 }
 

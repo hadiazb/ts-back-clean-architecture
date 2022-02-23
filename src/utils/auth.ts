@@ -11,40 +11,43 @@ export class AuthLogin {
 
   public localStrategyImplement() {
     this.passport.use(
-      new this.localStrategy({ usernameField: 'email', passwordField: 'password' }, async (email, password, done) => {
-        try {
-          const user = await this.findOneByEmail(email);
-          let passwordDB!: string;
-          if (!user) {
-            done(boom.unauthorized(), false);
-          }
-          if (typeof user !== 'string') {
-            const userAuth = await Auth.findOne({
-              where: {
-                idUser: user.id
-              }
-            });
+      new this.localStrategy(
+        { usernameField: 'email', passwordField: 'password' },
+        async (email, password, done) => {
+          try {
+            const user = await this.findOneByEmail(email);
+            let passwordDB!: string;
+            if (!user) {
+              done(boom.unauthorized(), false);
+            }
+            if (typeof user !== 'string') {
+              const userAuth = await Auth.findOne({
+                where: {
+                  idUser: user.id
+                }
+              });
 
-            passwordDB = userAuth ? userAuth?.password : '';
-          }
-          const isMatch = await bcrypt.compare(password, passwordDB);
+              passwordDB = userAuth ? userAuth?.password : '';
+            }
+            const isMatch = await bcrypt.compare(password, passwordDB);
 
-          if (!isMatch) {
-            done(boom.unauthorized(), false);
-          }
+            if (!isMatch) {
+              done(boom.unauthorized(), false);
+            }
 
-          done(null, user);
-        } catch (error) {
-          done(error, false);
+            done(null, user);
+          } catch (error) {
+            done(error, false);
+          }
         }
-      })
+      )
     );
   }
 
   public async findOneByEmail(email: string): Promise<Users> {
     try {
       const response = await Users.findOne({
-        attributes: ['id', 'name', 'lastName', 'email', 'phone', 'isBlock'],
+        attributes: ['id', 'name', 'lastName', 'email'],
         include: [
           {
             model: Roles,

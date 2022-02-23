@@ -46,6 +46,10 @@ class AuthRoutes {
       });
     });
 
+    this.router.post('/register', (req: Request, res: Response, next: NextFunction) =>
+      authApi.register(req, res, next)
+    );
+
     this.router.post(
       '/login',
       passport.authenticate('local', { session: false }),

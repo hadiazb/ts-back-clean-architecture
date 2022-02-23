@@ -3,6 +3,7 @@ import { Service } from 'typedi';
 import { IAuthController } from './IAuthController';
 import { AuthRetriever } from '../application/implementation/AuthRetriever';
 import { AuthValidator } from '../application/implementation/AuthValidator';
+import { IUserCreator } from '../application/interface/IAuthCreator';
 
 @Service()
 export class AuthController implements IAuthController {
@@ -11,5 +12,7 @@ export class AuthController implements IAuthController {
     private readonly authValidator: AuthValidator
   ) {}
 
-  public login() {}
+  public async register(body: IUserCreator) {
+    return await this.authRetriever.register(body);
+  }
 }

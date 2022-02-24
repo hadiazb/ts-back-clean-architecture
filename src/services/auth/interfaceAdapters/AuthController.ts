@@ -30,4 +30,12 @@ export class AuthController implements IAuthController {
       throw boom.unauthorized();
     }
   }
+
+  public async sendMail(to: string, subject: string, text: string, html: string) {
+    try {
+      this.authValidator.sendMail(to, subject, text, html);
+    } catch (error) {
+      throw new Error('AuthController');
+    }
+  }
 }

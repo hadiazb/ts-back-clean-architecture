@@ -15,6 +15,12 @@ export default class AuthApi {
     await this.authController
       .register(req.body)
       .then((response) => {
+        this.authController.sendMail(
+          req.body.email,
+          'Hola mundo',
+          'hola mundo',
+          '<h1>Hola mundo</h1>'
+        );
         this.apiResponse.success(req, res, { status: 200, response });
       })
       .catch((err) => {

@@ -12,7 +12,10 @@ export type RolesId = Roles[RolesPk];
 export type RolesOptionalAttributes = 'id' | 'rolName';
 export type RolesCreationAttributes = Optional<RolesAttributes, RolesOptionalAttributes>;
 
-export class Roles extends Model<RolesAttributes, RolesCreationAttributes> implements RolesAttributes {
+export class Roles
+  extends Model<RolesAttributes, RolesCreationAttributes>
+  implements RolesAttributes
+{
   id!: number;
 
   rolName?: string;
@@ -27,7 +30,7 @@ export class Roles extends Model<RolesAttributes, RolesCreationAttributes> imple
           primaryKey: true
         },
         rolName: {
-          type: DataTypes.STRING,
+          type: DataTypes.ENUM('ADMIN', 'CUSTOMER', 'SELLER'),
           allowNull: true
         },
         idUser: {

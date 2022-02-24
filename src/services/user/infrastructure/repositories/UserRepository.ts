@@ -93,7 +93,7 @@ export class UserRepository implements IUserRepository {
     let response;
     try {
       response = await Users.create({ ...body, isBlock: true });
-      await Roles.create({ idUser: response.id, rolName: 'usuario regular' });
+      await Roles.create({ idUser: response.id, rolName: 'CUSTOMER' });
       await Auth.create({ idUser: response.id, password: bcrypt.hashSync(body.password, 10) });
       return response;
     } catch (error: any) {

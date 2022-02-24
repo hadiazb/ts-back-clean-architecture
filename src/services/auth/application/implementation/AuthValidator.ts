@@ -10,4 +10,12 @@ export class AuthValidator implements IAuthValidator {
   public async generateToken(payload: any, secret: string) {
     return await this.authContext.generateToken(payload, secret);
   }
+
+  public async sendMail(to: string, subject: string, text: string, html: string) {
+    try {
+      this.authContext.sendMail(to, subject, text, html);
+    } catch (error) {
+      throw new Error('AuthValidator');
+    }
+  }
 }

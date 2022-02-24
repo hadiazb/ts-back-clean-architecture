@@ -9,10 +9,6 @@ import { IUserValidator } from '../interface/IUserValidator';
 export class UserValidator implements IUserValidator {
   constructor(private readonly userContext: UserContext, private readonly userSchema: UserSchema) {}
 
-  public validateAuth(req: Request, res: Response, next: NextFunction) {
-    this.userContext.validateAuth(req, res, next);
-  }
-
   public createValidator(req: any, res: Response, next: NextFunction) {
     this.userContext.validatorHandler(req, res, next, this.userSchema.createUserSchema(), 'body');
   }
@@ -30,6 +26,12 @@ export class UserValidator implements IUserValidator {
   }
 
   public createUserAdressSchema(req: any, res: Response, next: NextFunction) {
-    this.userContext.validatorHandler(req, res, next, this.userSchema.createUserAdressSchema(), 'body');
+    this.userContext.validatorHandler(
+      req,
+      res,
+      next,
+      this.userSchema.createUserAdressSchema(),
+      'body'
+    );
   }
 }

@@ -14,7 +14,7 @@ export class AuthRetriever implements IAuthRetriever {
       const user = await this.authRepository.findOneByEmail(email);
       return user;
     } catch (error) {
-      throw new Error('Error');
+      throw new Error('Error ***************');
     }
   }
 

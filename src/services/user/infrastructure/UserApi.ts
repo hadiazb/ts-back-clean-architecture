@@ -6,7 +6,10 @@ import { ApiResponse } from '../../../utils/response.handler';
 
 @Service()
 export default class UserApi {
-  constructor(private readonly userController: UserController, private readonly apiResponse: ApiResponse) {}
+  constructor(
+    private readonly userController: UserController,
+    private readonly apiResponse: ApiResponse
+  ) {}
 
   public async findAll(req: Request, res: Response, next: NextFunction) {
     await this.userController
@@ -26,7 +29,6 @@ export default class UserApi {
         this.apiResponse.success(req, res, { status: 200, response });
       })
       .catch((err) => {
-        console.log(err);
         next(err);
       });
   }
@@ -73,10 +75,6 @@ export default class UserApi {
       .catch((err) => {
         next(err);
       });
-  }
-
-  public validateAuth(req: Request, res: Response, next: NextFunction) {
-    this.userController.validateAuth(req, res, next);
   }
 
   public createValidator(req: any, res: Response, next: NextFunction) {

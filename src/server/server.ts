@@ -43,6 +43,7 @@ export class Server extends AuthLogin implements IServer {
     this.application.use(this.errorHandler.logErrors);
     this.application.use(this.errorHandler.boomErrorHandler);
     this.application.use(this.errorHandler.errorHandler);
+    this.jwtStrategyImplement();
     this.localStrategyImplement();
   }
 

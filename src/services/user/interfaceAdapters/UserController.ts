@@ -9,7 +9,10 @@ import { UserValidator } from '../application/implementation/UserValidator';
 
 @Service()
 export class UserController implements IUserController {
-  constructor(private readonly userRetriever: UserRetriever, private readonly userValidator: UserValidator) {}
+  constructor(
+    private readonly userRetriever: UserRetriever,
+    private readonly userValidator: UserValidator
+  ) {}
 
   public async findAll(): Promise<Users[] | string> {
     return await this.userRetriever.findAll();
@@ -33,10 +36,6 @@ export class UserController implements IUserController {
 
   public async createUserAdress(id: string, body: Adress[]): Promise<string> {
     return await this.userRetriever.createUserAdress(id, body);
-  }
-
-  public validateAuth(req: Request, res: Response, next: NextFunction): void {
-    this.userValidator.validateAuth(req, res, next);
   }
 
   public createValidator(req: any, res: Response, next: NextFunction): void {

@@ -1,15 +1,15 @@
-import { Request, Response, NextFunction, ErrorRequestHandler, Errback } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { Boom } from '@hapi/boom';
 
 export class ErrorsHandler {
-  public logErrors(err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) {
+  public logErrors(err: any, req: Request, res: Response, next: NextFunction) {
     console.error(err);
     next(err);
   }
 
-  public errorHandler(err: Errback, req: Request, res: Response, next: NextFunction) {
+  public errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
     res.status(500).json({
-      message: err.name
+      message: err.message
     });
   }
 

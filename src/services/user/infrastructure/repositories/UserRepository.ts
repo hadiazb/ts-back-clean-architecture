@@ -30,8 +30,8 @@ export class UserRepository implements IUserRepository {
         return 'The Users table is emply';
       }
       return response;
-    } catch (error: any) {
-      return error.message;
+    } catch (error) {
+      throw boom.unauthorized();
     }
   }
 

@@ -47,12 +47,7 @@ export class AuthRepository implements IAuthRepository {
       await Auth.create({ idUser: response.id, password: bcrypt.hashSync(body.password, 10) });
       return response;
     } catch (error: any) {
-      throw new Error('Error createone');
+      throw new Error('Error register');
     }
-  }
-
-  public async login(body: any) {
-    try {
-    } catch (error) {}
   }
 }

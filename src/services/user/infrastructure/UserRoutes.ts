@@ -1,5 +1,6 @@
 import { Router, Request, NextFunction, Response } from 'express';
 import Container from 'typedi';
+import passport from 'passport';
 
 import UserApi from './UserApi';
 import config from '../../../config/index';
@@ -50,37 +51,37 @@ class UserRoutes {
 
     this.router.get(
       '/findAll',
-      (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      passport.authenticate('jwt', { session: false }),
       (req: Request, res: Response, next: NextFunction) => userApi.findAll(req, res, next)
     );
     this.router.get(
       '/findOne/:id',
-      (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      passport.authenticate('jwt', { session: false }),
       (req: Request, res: Response, next: NextFunction) => userApi.getValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.findOne(req, res, next)
     );
     this.router.delete(
       '/deleteOne/:id',
-      (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      passport.authenticate('jwt', { session: false }),
       (req: Request, res: Response, next: NextFunction) => userApi.deleteValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.deleteOne(req, res, next)
     );
     this.router.post(
       '/createOne',
-      (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      passport.authenticate('jwt', { session: false }),
       (req: Request, res: Response, next: NextFunction) => userApi.createValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.createOne(req, res, next)
     );
     this.router.put(
       '/updateOne/:id',
-      (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      passport.authenticate('jwt', { session: false }),
       (req: Request, res: Response, next: NextFunction) => userApi.getValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.updateValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.updateOne(req, res, next)
     );
     this.router.post(
       '/createUserAdress/:id',
-      (req: Request, res: Response, next: NextFunction) => userApi.validateAuth(req, res, next),
+      passport.authenticate('jwt', { session: false }),
       (req: Request, res: Response, next: NextFunction) => userApi.getValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) =>
         userApi.createUserAdressSchema(req, res, next),

@@ -25,7 +25,7 @@ const config: Config = {
       key: process.env.REDISCACHEKEY_DEVELOP || ''
     },
     auth: {
-      secret: process.env.SECRET_DEVELOP
+      secret: process.env.JWT_SECRET_DEVELOP || ''
     }
   },
 
@@ -46,7 +46,7 @@ const config: Config = {
       key: process.env.REDISCACHEKEY || ''
     },
     auth: {
-      secret: process.env.SECRET_STG
+      secret: process.env.JWT_SECRET_STG || ''
     }
   },
 
@@ -67,7 +67,7 @@ const config: Config = {
       key: process.env.REDISCACHEKEY_PRODUCTION || ''
     },
     auth: {
-      secret: process.env.SECRET_PRODUCTION
+      secret: process.env.JWT_SECRET_PRODUCTION || ''
     }
   }
 };

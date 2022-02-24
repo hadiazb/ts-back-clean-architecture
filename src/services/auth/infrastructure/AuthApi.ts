@@ -24,7 +24,8 @@ export default class AuthApi {
 
   public async login(req: Request, res: Response, next: NextFunction) {
     try {
-      await this.apiResponse.success(req, res, { status: 200, response: req.user });
+      const token = await this.authController.generateToken(req, res, next);
+      await this.apiResponse.success(req, res, { status: 200, response: token });
     } catch (error) {
       next(error);
     }

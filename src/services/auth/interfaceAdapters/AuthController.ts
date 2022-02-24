@@ -1,9 +1,12 @@
 import { Service } from 'typedi';
+import { NextFunction, Request, Response } from 'express';
+import boom from '@hapi/boom';
 
 import { IAuthController } from './IAuthController';
 import { AuthRetriever } from '../application/implementation/AuthRetriever';
 import { AuthValidator } from '../application/implementation/AuthValidator';
 import { IUserCreator } from '../application/interface/IAuthCreator';
+import config from '../../../config';
 
 @Service()
 export class AuthController implements IAuthController {
@@ -14,5 +17,18 @@ export class AuthController implements IAuthController {
 
   public async register(body: IUserCreator) {
     return await this.authRetriever.register(body);
+  }
+
+  public async generateToken(req: Request, res: Response, next: NextFunction) {
+    const secret = config.develop.auth.secret || '';
+    console.log(secret);
+    try {
+      if (req.user) {
+        return await this.authValidator.generateToken(req.user, secret);
+      }
+      throw boom.unauthorized();
+    } catch (error) {
+      throw new Error('Error');
+    }
   }
 }

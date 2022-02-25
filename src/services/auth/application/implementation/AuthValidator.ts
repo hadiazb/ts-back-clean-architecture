@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express';
 import { Service } from 'typedi';
 
 import { AuthContext } from '../../domain/AuthContext';
@@ -17,5 +18,9 @@ export class AuthValidator implements IAuthValidator {
     } catch (error) {
       throw new Error('AuthValidator');
     }
+  }
+
+  public checkRole(req: Request, res: Response, next: NextFunction) {
+    this.authContext.checkRole(req, res, next);
   }
 }

@@ -38,4 +38,8 @@ export class AuthController implements IAuthController {
       throw new Error('AuthController');
     }
   }
+
+  public checkRole(req: Request, res: Response, next: NextFunction) {
+    this.authValidator.checkRole(req, res, next);
+  }
 }

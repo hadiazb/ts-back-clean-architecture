@@ -36,4 +36,8 @@ export default class AuthApi {
       next(error);
     }
   }
+
+  public checkRole(req: Request, res: Response, next: NextFunction) {
+    this.authController.checkRole(req, res, next);
+  }
 }

@@ -96,4 +96,8 @@ export default class UserApi {
   public createUserAdressSchema(req: any, res: Response, next: NextFunction) {
     this.userController.createUserAdressSchema(req, res, next);
   }
+
+  public checkRole(req: Request, res: Response, next: NextFunction, ...roles: string[]) {
+    this.userController.checkRole(req, res, next, ...roles);
+  }
 }

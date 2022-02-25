@@ -52,29 +52,39 @@ class UserRoutes {
     this.router.get(
       '/findAll',
       passport.authenticate('jwt', { session: false }),
+      (req: Request, res: Response, next: NextFunction) =>
+        userApi.checkRole(req, res, next, 'ADMIN', 'CUSTOMER', 'SELLER'),
       (req: Request, res: Response, next: NextFunction) => userApi.findAll(req, res, next)
     );
     this.router.get(
       '/findOne/:id',
       passport.authenticate('jwt', { session: false }),
+      (req: Request, res: Response, next: NextFunction) =>
+        userApi.checkRole(req, res, next, 'ADMIN', 'CUSTOMER', 'SELLER'),
       (req: Request, res: Response, next: NextFunction) => userApi.getValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.findOne(req, res, next)
     );
     this.router.delete(
       '/deleteOne/:id',
       passport.authenticate('jwt', { session: false }),
+      (req: Request, res: Response, next: NextFunction) =>
+        userApi.checkRole(req, res, next, 'ADMIN'),
       (req: Request, res: Response, next: NextFunction) => userApi.deleteValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.deleteOne(req, res, next)
     );
     this.router.post(
       '/createOne',
       passport.authenticate('jwt', { session: false }),
+      (req: Request, res: Response, next: NextFunction) =>
+        userApi.checkRole(req, res, next, 'ADMIN'),
       (req: Request, res: Response, next: NextFunction) => userApi.createValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.createOne(req, res, next)
     );
     this.router.put(
       '/updateOne/:id',
       passport.authenticate('jwt', { session: false }),
+      (req: Request, res: Response, next: NextFunction) =>
+        userApi.checkRole(req, res, next, 'ADMIN', 'CUSTOMER', 'SELLER'),
       (req: Request, res: Response, next: NextFunction) => userApi.getValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.updateValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.updateOne(req, res, next)
@@ -82,6 +92,8 @@ class UserRoutes {
     this.router.post(
       '/createUserAdress/:id',
       passport.authenticate('jwt', { session: false }),
+      (req: Request, res: Response, next: NextFunction) =>
+        userApi.checkRole(req, res, next, 'ADMIN', 'CUSTOMER', 'SELLER'),
       (req: Request, res: Response, next: NextFunction) => userApi.getValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) =>
         userApi.createUserAdressSchema(req, res, next),

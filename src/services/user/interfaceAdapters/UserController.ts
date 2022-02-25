@@ -57,4 +57,8 @@ export class UserController implements IUserController {
   public createUserAdressSchema(req: any, res: Response, next: NextFunction): void {
     this.userValidator.createUserAdressSchema(req, res, next);
   }
+
+  public checkRole(req: Request, res: Response, next: NextFunction, ...roles: string[]) {
+    this.userValidator.checkRole(req, res, next, ...roles);
+  }
 }

@@ -34,4 +34,8 @@ export class UserValidator implements IUserValidator {
       'body'
     );
   }
+
+  public checkRole(req: Request, res: Response, next: NextFunction, ...roles: string[]) {
+    this.userContext.checkRole(req, res, next, ...roles);
+  }
 }

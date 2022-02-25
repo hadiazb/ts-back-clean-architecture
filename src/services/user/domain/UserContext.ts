@@ -33,4 +33,14 @@ export class UserContext implements IUserContext {
 
     throw boom.notFound('User not found');
   }
+
+  public checkRole(req: Request, res: Response, next: NextFunction, ...roles: string[]) {
+    const user: any = req.user;
+
+    if (roles.includes(user.roles.rolName)) {
+      next();
+    } else {
+      next(boom.unauthorized());
+    }
+  }
 }

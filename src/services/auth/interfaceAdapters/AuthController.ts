@@ -8,6 +8,12 @@ import { AuthValidator } from '../application/implementation/AuthValidator';
 import { IUserCreator } from '../application/interface/IAuthCreator';
 import config from '../../../config';
 
+interface Options {
+  to: string;
+  subject: string;
+  text: string;
+  html: string;
+}
 @Service()
 export class AuthController implements IAuthController {
   constructor(
@@ -31,15 +37,11 @@ export class AuthController implements IAuthController {
     }
   }
 
-  public async sendMail(to: string, subject: string, text: string, html: string) {
-    try {
-      this.authValidator.sendMail(to, subject, text, html);
-    } catch (error) {
-      throw new Error('AuthController');
-    }
-  }
-
   public checkRole(req: Request, res: Response, next: NextFunction) {
     this.authValidator.checkRole(req, res, next);
+  }
+
+  public async sendMail(options: Options) {
+    return await this.authValidator.sendMail(options);
   }
 }

@@ -53,7 +53,7 @@ class UserRoutes {
       '/findAll',
       passport.authenticate('jwt', { session: false }),
       (req: Request, res: Response, next: NextFunction) =>
-        userApi.checkRole(req, res, next, 'ADMIN', 'CUSTOMER', 'SELLER'),
+        userApi.checkRole(req, res, next, 'ADMIN'),
       (req: Request, res: Response, next: NextFunction) => userApi.findAll(req, res, next)
     );
     this.router.get(

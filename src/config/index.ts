@@ -28,7 +28,8 @@ const config: Config = {
       secret: process.env.JWT_SECRET_DEVELOP || ''
     },
     mail: {
-      apiKey: process.env.API_SENDGRID_DEVELOP
+      apiKey: process.env.KEY_MAIL_DEVELOP,
+      user: process.env.USER_MAIL_DEVELOP
     }
   },
 
@@ -52,7 +53,8 @@ const config: Config = {
       secret: process.env.JWT_SECRET_STG || ''
     },
     mail: {
-      apiKey: process.env.API_SENDGRID_STG
+      apiKey: process.env.KEY_MAIL_STG,
+      user: process.env.USER_MAIL_STG
     }
   },
 
@@ -76,7 +78,8 @@ const config: Config = {
       secret: process.env.JWT_SECRET_PRODUCTION || ''
     },
     mail: {
-      apiKey: process.env.API_SENDGRID_PRODUCTION
+      apiKey: process.env.KEY_MAIL_PRODUCTION,
+      user: process.env.USER_MAIL_PRODUCTION
     }
   }
 };

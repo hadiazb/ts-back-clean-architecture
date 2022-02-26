@@ -68,7 +68,7 @@ export class Server extends AuthLogin implements IServer {
 
   public async connectionDB() {
     try {
-      this.database.sync({ force: false });
+      this.database.sync({ force: true });
       this.databaseLog();
     } catch (error) {
       console.log(error);

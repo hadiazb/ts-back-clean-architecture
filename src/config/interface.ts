@@ -12,7 +12,7 @@ export interface Develop {
   database: Database;
   redis: Redis;
   auth: Auth;
-  mail: SendGrid;
+  mail: Mail;
 }
 
 export interface App {
@@ -23,8 +23,9 @@ export interface Auth {
   secret: string | undefined;
 }
 
-export interface SendGrid {
+export interface Mail {
   apiKey: string | undefined;
+  user: string | undefined;
 }
 
 export interface Database {

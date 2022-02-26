@@ -4,7 +4,7 @@ import { Config } from './interface';
 
 dotenv.config();
 
-const config: Config = {
+export const config: Config = {
   env: process.env.NODE_ENV || 'develop',
   path: '/api/v1',
   port: process.env.PORT || 8080,
@@ -83,5 +83,3 @@ const config: Config = {
     }
   }
 };
-
-export default config;

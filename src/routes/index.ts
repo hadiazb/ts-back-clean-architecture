@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import config from '../config/index';
+import { config } from '../config/index';
 
 class Routes {
   public configuration = config;

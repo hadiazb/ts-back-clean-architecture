@@ -3,7 +3,7 @@ import Container from 'typedi';
 import passport from 'passport';
 
 import UserApi from './UserApi';
-import config from '../../../config/index';
+import { config } from '../../../config/index';
 
 class UserRoutes {
   public router: Router;

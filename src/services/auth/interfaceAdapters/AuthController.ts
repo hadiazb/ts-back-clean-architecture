@@ -6,7 +6,7 @@ import { IAuthController } from './IAuthController';
 import { AuthRetriever } from '../application/implementation/AuthRetriever';
 import { AuthValidator } from '../application/implementation/AuthValidator';
 import { IUserCreator } from '../application/interface/IAuthCreator';
-import config from '../../../config';
+import { config } from '../../../config';
 
 interface Options {
   to: string;

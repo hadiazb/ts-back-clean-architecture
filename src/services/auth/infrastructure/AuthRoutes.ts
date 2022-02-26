@@ -2,7 +2,7 @@ import { Router, Request, NextFunction, Response } from 'express';
 import Container from 'typedi';
 
 import AuthApi from './AuthApi';
-import config from '../../../config/index';
+import { config } from '../../../config/index';
 import passport from 'passport';
 
 class AuthRoutes {

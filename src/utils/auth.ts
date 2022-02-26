@@ -5,7 +5,7 @@ import boom from '@hapi/boom';
 import bcrypt from 'bcrypt';
 
 import { Users, Roles, Auth } from '../database/init-model';
-import config from '../config';
+import { config } from '../config';
 
 export class AuthLogin {
   public localStrategy = localStrategy;

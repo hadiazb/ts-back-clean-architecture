@@ -6,7 +6,7 @@ import nodemailer from 'nodemailer';
 
 import { IAuthContext } from './IAuthContext';
 import { Users } from '../../user/domain/models/Users';
-import config from '../../../config';
+import { config } from '../../../config';
 
 interface Options {
   to: string;

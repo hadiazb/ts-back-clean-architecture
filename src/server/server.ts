@@ -4,15 +4,20 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
 
-import config from '../config/index';
+import { config } from '../config/index';
 import { Config } from '../config/interface';
+
 import { IServer } from './IServer';
-import routes from '../routes';
+
 import sequelize from '../database/connection';
+import { initModels } from '../database/init-model';
+
+import routes from '../routes';
 import userRoutes from '../services/user/infrastructure/UserRoutes';
 import authRoutes from '../services/auth/infrastructure/AuthRoutes';
-import { initModels } from '../database/init-model';
+
 import { ErrorsHandler } from '../utils/error.handler';
+
 import { AuthLogin } from '../utils/auth';
 
 export class Server extends AuthLogin implements IServer {

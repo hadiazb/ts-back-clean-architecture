@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
-import { Auth, AuthId } from './Auth';
+import { Auth, AuthId } from '../../../auth/domain/models/Auth';
 import { Roles, RolesId } from './Roles';
 import { Adress, AdressId } from './Adress';
 
@@ -11,11 +11,23 @@ export interface UsersAttributes {
   email: string;
   phone?: string;
   isBlock?: boolean;
+  isDelete?: boolean;
+  age?: number;
+  identification?: number;
 }
 
 export type UsersPk = 'id';
 export type UsersId = Users[UsersPk];
-export type UsersOptionalAttributes = 'id' | 'name' | 'lastName' | 'email' | 'phone' | 'isBlock';
+export type UsersOptionalAttributes =
+  | 'id'
+  | 'name'
+  | 'lastName'
+  | 'email'
+  | 'phone'
+  | 'isBlock'
+  | 'isDelete'
+  | 'age'
+  | 'identification';
 export type UsersCreationAttributes = Optional<UsersAttributes, UsersOptionalAttributes>;
 
 export class Users
@@ -28,6 +40,9 @@ export class Users
   email!: string;
   phone?: string;
   isBlock?: boolean;
+  isDelete?: boolean;
+  age?: number;
+  identification?: number;
 
   // Users hasOne Roles via idUser
   idRoles_Roles!: Roles;
@@ -82,6 +97,19 @@ export class Users
         },
         isBlock: {
           type: DataTypes.BOOLEAN,
+          allowNull: true
+        },
+        isDelete: {
+          type: DataTypes.BOOLEAN,
+          allowNull: true,
+          defaultValue: false
+        },
+        age: {
+          type: DataTypes.INTEGER,
+          allowNull: true
+        },
+        identification: {
+          type: DataTypes.INTEGER,
           allowNull: true
         }
       },

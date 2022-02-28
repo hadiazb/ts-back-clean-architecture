@@ -89,11 +89,11 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  public async createOne(body: IUserCreator): Promise<Users | string> {
+  public async createOne(body: IUserCreator, role: string = 'CUSTOMER'): Promise<Users | string> {
     let response;
     try {
       response = await Users.create({ ...body, isBlock: true });
-      await Roles.create({ idUser: response.id, rolName: 'CUSTOMER' });
+      await Roles.create({ idUser: response.id, rolName: role.toUpperCase() });
       await Auth.create({ idUser: response.id, password: bcrypt.hashSync(body.password, 10) });
       return response;
     } catch (error: any) {
@@ -112,11 +112,6 @@ export class UserRepository implements IUserRepository {
 
       if (response[0] === 1) {
         const user = await Users.findByPk(id);
-        await Roles.update(body, {
-          where: {
-            idUser: user?.id
-          }
-        });
 
         await Auth.update(body, {
           where: {

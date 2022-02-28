@@ -27,6 +27,11 @@ export default class UserSchema {
       id: this.id.required()
     });
   }
+  public createQueryUserSchema() {
+    return Joi.object({
+      role: this.rolName.valid('ADMIN', 'CUSTOMER', 'SELLER').required()
+    });
+  }
   public deleteUserSchema() {
     return Joi.object({
       id: this.id.required()
@@ -40,7 +45,8 @@ export default class UserSchema {
       password: this.password,
       isBlock: this.isBlock,
       phone: this.phone,
-      rolName: this.rolName
+      age: this.number.min(3).max(110),
+      identification: this.number
     });
   }
   public createUserAdressSchema() {

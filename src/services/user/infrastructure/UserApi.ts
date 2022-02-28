@@ -45,8 +45,9 @@ export default class UserApi {
   }
 
   public async createOne(req: Request, res: Response, next: NextFunction) {
+    const role = req.query.role!.toString();
     await this.userController
-      .createOne(req.body)
+      .createOne(req.body, role)
       .then((response) => {
         this.apiResponse.success(req, res, { status: 200, response });
       })
@@ -83,6 +84,10 @@ export default class UserApi {
 
   public getValidator(req: any, res: Response, next: NextFunction) {
     this.userController.getValidator(req, res, next);
+  }
+
+  public createQueryUserSchema(req: any, res: Response, next: NextFunction): void {
+    this.userController.createQueryUserSchema(req, res, next);
   }
 
   public deleteValidator(req: any, res: Response, next: NextFunction) {

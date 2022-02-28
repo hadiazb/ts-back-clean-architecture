@@ -21,8 +21,8 @@ export class UserRetriever implements IUserRetriever {
     return await this.userRepository.deleteOne(id);
   }
 
-  public async createOne(body: IUserCreator): Promise<Users | string> {
-    return await this.userRepository.createOne(body);
+  public async createOne(body: IUserCreator, role: string): Promise<Users | string> {
+    return await this.userRepository.createOne(body, role);
   }
 
   public async createUserAdress(id: string, body: Adress[]): Promise<string> {

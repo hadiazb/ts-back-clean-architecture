@@ -26,8 +26,8 @@ export class UserController implements IUserController {
     return await this.userRetriever.deleteOne(id);
   }
 
-  public async createOne(body: IUserCreator): Promise<Users | string> {
-    return await this.userRetriever.createOne(body);
+  public async createOne(body: IUserCreator, role: string): Promise<Users | string> {
+    return await this.userRetriever.createOne(body, role);
   }
 
   public async updateOne(id: string, body: IUserCreator): Promise<string> {
@@ -40,6 +40,10 @@ export class UserController implements IUserController {
 
   public createValidator(req: any, res: Response, next: NextFunction): void {
     this.userValidator.createValidator(req, res, next);
+  }
+
+  public createQueryUserSchema(req: any, res: Response, next: NextFunction): void {
+    this.userValidator.createQueryUserSchema(req, res, next);
   }
 
   public getValidator(req: any, res: Response, next: NextFunction): void {

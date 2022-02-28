@@ -77,6 +77,8 @@ class UserRoutes {
       passport.authenticate('jwt', { session: false }),
       (req: Request, res: Response, next: NextFunction) =>
         userApi.checkRole(req, res, next, 'ADMIN'),
+      (req: Request, res: Response, next: NextFunction) =>
+        userApi.createQueryUserSchema(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.createValidator(req, res, next),
       (req: Request, res: Response, next: NextFunction) => userApi.createOne(req, res, next)
     );

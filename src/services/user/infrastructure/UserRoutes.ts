@@ -7,28 +7,15 @@ import { config } from '../../../config/index';
 
 class UserRoutes {
   public router: Router;
-
   public configuration = config;
+  public path = this.configuration.path;
+  public baseUrl = `${this.configuration.enviroment.app.host}${
+    this.configuration.env === 'develop' ? ':' + this.configuration.port : ''
+  }${this.path}`;
 
   constructor() {
     this.router = Router();
     this.Routes();
-  }
-
-  public switchEndPoint(env: string) {
-    switch (env) {
-      case 'develop':
-        return `${this.configuration.develop.app.host}:${this.configuration.port}${this.configuration.path}`;
-
-      case 'stg':
-        return `${this.configuration.stg.app.host}${this.configuration.path}`;
-
-      case 'production':
-        return `${this.configuration.production.app.host}${this.configuration.path}`;
-
-      default:
-        return `${this.configuration.develop.app.host}:${this.configuration.port}${this.configuration.path}`;
-    }
   }
 
   public Routes() {
@@ -37,7 +24,7 @@ class UserRoutes {
     this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
       res.send({
         url: {
-          baseUrl: this.switchEndPoint(this.configuration.env),
+          baseUrl: this.baseUrl,
           options: [
             { authorization: true, path: '/findAll', method: ['GET'] },
             { authorization: true, path: '/findOne/:id', method: ['GET'] },

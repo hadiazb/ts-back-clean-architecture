@@ -21,8 +21,8 @@ export class AuthContext implements IAuthContext {
     secure: true,
     port: 465,
     auth: {
-      user: config.develop.mail.user,
-      pass: config.develop.mail.apiKey
+      user: config.enviroment.mail.user,
+      pass: config.enviroment.mail.apiKey
     }
   });
 
@@ -44,7 +44,7 @@ export class AuthContext implements IAuthContext {
 
   public async sendMail(options: Options) {
     const info = await this.transporter.sendMail({
-      from: config.develop.mail.user,
+      from: config.enviroment.mail.user,
       to: options.to,
       subject: options.subject,
       text: options.text,

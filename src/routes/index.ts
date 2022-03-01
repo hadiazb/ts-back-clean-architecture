@@ -12,48 +12,19 @@ class Routes {
   }
 
   public router: Router;
+  public baseUrl = `${this.configuration.enviroment.app.host}${
+    this.configuration.env === 'develop' ? ':' + this.configuration.port : ''
+  }${this.path}`;
 
   public routes() {
     this.router.get(this.path, (req, res, next) => {
-      res.send(this.switchEnvRoutes(this.configuration.env));
+      res.send({
+        baseUrl: this.baseUrl,
+        userEndPoint: `${this.baseUrl}/user`,
+        authEndPoint: `${this.baseUrl}/auth`,
+        adminEndPoint: `${this.baseUrl}}/admin`
+      });
     });
-  }
-
-  public switchEnvRoutes(env: string) {
-    switch (env) {
-      case 'develop':
-        console.log(this.path);
-        return {
-          baseUrl: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}`,
-          userEndPoint: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}/user`,
-          authEndPoint: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}/auth`,
-          adminEndPoint: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}/admin`
-        };
-
-      case 'stg':
-        return {
-          baseUrl: `${this.configuration.stg.app.host}${this.path}`,
-          userEndPoint: `${this.configuration.stg.app.host}${this.path}/user`,
-          authEndPoint: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}/auth`,
-          adminEndPoint: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}/admin`
-        };
-
-      case 'production':
-        return {
-          baseUrl: `${this.configuration.production.app.host}${this.path}`,
-          userEndPoint: `${this.configuration.production.app.host}${this.path}/user`,
-          authEndPoint: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}/auth`,
-          adminEndPoint: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}/admin`
-        };
-
-      default:
-        return {
-          baseUrl: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}`,
-          userEndPoint: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}/user`,
-          authEndPoint: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}/auth`,
-          adminEndPoint: `${this.configuration.develop.app.host}:${this.configuration.port}${this.path}/admin`
-        };
-    }
   }
 }
 

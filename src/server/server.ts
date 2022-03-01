@@ -5,11 +5,10 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import { config } from '../config/index';
-import { Config } from '../config/interface';
 
 import { IServer } from './IServer';
 
-import sequelize from '../database/connection';
+import { sequelize } from '../database/connection';
 import { initModels } from '../database/init-model';
 
 import routes from '../routes';
@@ -22,7 +21,7 @@ import { AuthLogin } from '../utils/auth';
 
 export class Server extends AuthLogin implements IServer {
   public application!: express.Application;
-  public configuration: Config = config;
+  public configuration = config;
   public database = sequelize;
   public path = this.configuration.path;
   public errorHandler: ErrorsHandler = new ErrorsHandler();
@@ -65,7 +64,11 @@ export class Server extends AuthLogin implements IServer {
 
   public start() {
     this.application.listen(this.application.get('port'), () => {
-      this.listenServer();
+      console.log(
+        `This is a ${this.configuration.env} enviroment, Running on ${
+          this.configuration.enviroment.app.host
+        }${this.configuration.env === 'develop' ? ':' + this.application.get('port') : ''}`
+      );
       this.connectionDB();
       this.initModels();
     });
@@ -74,7 +77,9 @@ export class Server extends AuthLogin implements IServer {
   public async connectionDB() {
     try {
       this.database.sync({ force: true });
-      this.databaseLog();
+      console.log(
+        `Database connected on ${this.configuration.env} enviroment Database Name: ${this.configuration.enviroment.database.dbName}`
+      );
     } catch (error) {
       console.log(error);
     }
@@ -94,41 +99,5 @@ export class Server extends AuthLogin implements IServer {
         }
       }
     });
-  }
-
-  public listenServer() {
-    if (this.configuration.env === 'develop') {
-      console.log(
-        `This is a Develop enviroment, Running on ${
-          this.configuration.develop.app.host
-        }:${this.application.get('port')}`
-      );
-    }
-    if (this.configuration.env === 'stg') {
-      console.log(`This is a Stg enviroment, Running on ${this.configuration.stg.app.host}`);
-    }
-    if (this.configuration.env === 'production') {
-      console.log(
-        `This is a Production enviroment, Running on ${this.configuration.production.app.host}`
-      );
-    }
-  }
-
-  public databaseLog() {
-    if (this.configuration.env === 'develop') {
-      console.log(
-        `Database connected on Develop enviroment Database Name: ${this.configuration.develop.database.dbName}`
-      );
-    }
-    if (this.configuration.env === 'stg') {
-      console.log(
-        `Database connected on Stg enviroment Database Name: ${this.configuration.stg.database.dbName}`
-      );
-    }
-    if (this.configuration.env === 'production') {
-      console.log(
-        `Database connected on Production enviroment Database Name: ${this.configuration.production.database.dbName}`
-      );
-    }
   }
 }

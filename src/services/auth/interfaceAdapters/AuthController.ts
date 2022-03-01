@@ -26,7 +26,7 @@ export class AuthController implements IAuthController {
   }
 
   public async generateToken(req: Request, res: Response, next: NextFunction) {
-    const secret = config.develop.auth.secret || '';
+    const secret = config.enviroment.auth.secret || '';
     try {
       if (req.user) {
         return await this.authValidator.generateToken(req.user, secret);

@@ -14,7 +14,7 @@ export class AuthLogin {
   public extractJwt = ExtractJwt;
   public options: StrategyOptions = {
     jwtFromRequest: this.extractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: config.develop.auth.secret
+    secretOrKey: config.enviroment.auth.secret
   };
 
   public jwtStrategyImplement() {

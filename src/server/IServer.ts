@@ -3,4 +3,7 @@ export interface IServer {
   middlewaresAfter(): void;
   middlewaresBefore(): void;
   routes(): void;
+  connectionDB(): void;
+  initModels(): void;
+  corsValidator(): void;
 }

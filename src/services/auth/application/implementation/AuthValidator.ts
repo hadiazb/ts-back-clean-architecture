@@ -14,15 +14,23 @@ interface Options {
 export class AuthValidator implements IAuthValidator {
   constructor(private readonly authContext: AuthContext) {}
 
-  public async generateToken(payload: any, secret: string) {
-    return await this.authContext.generateToken(payload, secret);
+  public async generateToken(payload: any, secret: string): Promise<string> {
+    try {
+      return await this.authContext.generateToken(payload, secret);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
-  public checkRole(req: Request, res: Response, next: NextFunction) {
+  public checkRole(req: Request, res: Response, next: NextFunction): void {
     this.authContext.checkRole(req, res, next);
   }
 
-  public async sendMail(options: Options) {
-    return await this.authContext.sendMail(options);
+  public async sendMail(options: Options): Promise<string> {
+    try {
+      return await this.authContext.sendMail(options);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 }

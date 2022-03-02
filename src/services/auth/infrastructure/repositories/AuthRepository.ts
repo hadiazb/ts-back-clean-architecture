@@ -8,37 +8,6 @@ import { IUserCreator } from '../../application/interface/IAuthCreator';
 
 @Service()
 export class AuthRepository implements IAuthRepository {
-  public async findOneByEmail(email: string): Promise<Users> {
-    try {
-      const response = await Users.findOne({
-        attributes: ['id', 'name', 'lastName', 'email', 'phone', 'isBlock'],
-        include: [
-          {
-            model: Roles,
-            as: 'roles',
-            attributes: ['id', 'rolName', 'idUser']
-          },
-          {
-            model: Auth,
-            as: 'auth',
-            attributes: ['id', 'idUser']
-          }
-        ],
-        where: {
-          email
-        }
-      });
-
-      if (!response) {
-        throw boom.notFound(`The user with ${email} not found`);
-      }
-
-      return response;
-    } catch (error: any) {
-      throw boom.unauthorized();
-    }
-  }
-
   public async register(body: IUserCreator): Promise<Users> {
     let response;
     try {
@@ -47,7 +16,15 @@ export class AuthRepository implements IAuthRepository {
       await Auth.create({ idUser: response.id, password: bcrypt.hashSync(body.password, 10) });
       return response;
     } catch (error: any) {
-      throw boom.notAcceptable();
+      throw Error(error.message);
+    }
+  }
+
+  public async recoveryPassword() {
+    try {
+      return 'reset password';
+    } catch (error: any) {
+      throw Error(error.message);
     }
   }
 }

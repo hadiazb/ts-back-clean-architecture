@@ -3,6 +3,8 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
+import http from 'http';
+import socketIO from 'socket.io';
 
 import { config } from '../config/index';
 
@@ -25,11 +27,20 @@ export class Server extends AuthLogin implements IServer {
   public database = sequelize;
   public path = this.configuration.path;
   public errorHandler: ErrorsHandler = new ErrorsHandler();
+  public io: socketIO.Server;
+  public server;
   public whitelist: string[] = ['http://localhost:3000', 'https://myapp.co'];
 
   constructor() {
     super();
     this.application = express();
+    this.server = new http.Server(this.application);
+    this.io = new socketIO.Server(this.server, {
+      cors: {
+        origin: true,
+        credentials: true
+      }
+    });
     this.middlewaresBefore();
     this.routes();
     this.middlewaresAfter();
@@ -63,7 +74,7 @@ export class Server extends AuthLogin implements IServer {
   }
 
   public start() {
-    this.application.listen(this.application.get('port'), () => {
+    this.server.listen(this.application.get('port'), () => {
       console.log(
         `This is a ${this.configuration.env} enviroment, Running on ${
           this.configuration.enviroment.app.host

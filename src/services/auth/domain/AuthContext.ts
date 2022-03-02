@@ -7,13 +7,8 @@ import nodemailer from 'nodemailer';
 import { IAuthContext } from './IAuthContext';
 import { Users } from '../../user/domain/models/Users';
 import { config } from '../../../config';
+import { Options } from './interface/options';
 
-interface Options {
-  to: string;
-  subject: string;
-  text: string;
-  html: string;
-}
 @Service()
 export class AuthContext implements IAuthContext {
   public transporter = nodemailer.createTransport({

@@ -15,27 +15,51 @@ export class UserController implements IUserController {
   ) {}
 
   public async findAll(): Promise<Users[] | string> {
-    return await this.userRetriever.findAll();
+    try {
+      return await this.userRetriever.findAll();
+    } catch (error) {
+      throw new Error('findAll UserController');
+    }
   }
 
   public async findOne(id: string): Promise<Users | string> {
-    return await this.userRetriever.findOne(id);
+    try {
+      return await this.userRetriever.findOne(id);
+    } catch (error) {
+      throw new Error('findOne UserController');
+    }
   }
 
   public async deleteOne(id: string): Promise<number | string> {
-    return await this.userRetriever.deleteOne(id);
+    try {
+      return await this.userRetriever.deleteOne(id);
+    } catch (error) {
+      throw new Error('delete userCotroller');
+    }
   }
 
   public async createOne(body: IUserCreator, role: string): Promise<Users | string> {
-    return await this.userRetriever.createOne(body, role);
+    try {
+      return await this.userRetriever.createOne(body, role);
+    } catch (error) {
+      throw new Error('createOne userController');
+    }
   }
 
   public async updateOne(id: string, body: IUserCreator): Promise<string> {
-    return await this.userRetriever.updateOne(id, body);
+    try {
+      return await this.userRetriever.updateOne(id, body);
+    } catch (error) {
+      throw new Error('updateOne userController');
+    }
   }
 
   public async createUserAdress(id: string, body: Adress[]): Promise<string> {
-    return await this.userRetriever.createUserAdress(id, body);
+    try {
+      return await this.userRetriever.createUserAdress(id, body);
+    } catch (error) {
+      throw new Error('createUserAdress userController');
+    }
   }
 
   public createValidator(req: any, res: Response, next: NextFunction): void {

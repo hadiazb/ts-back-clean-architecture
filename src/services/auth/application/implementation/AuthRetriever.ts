@@ -9,16 +9,19 @@ import { Users } from '../../../../database/init-model';
 export class AuthRetriever implements IAuthRetriever {
   constructor(private readonly authRepository: AuthRepository) {}
 
-  public async findOneByEmail(email: string) {
+  public async register(body: IUserCreator): Promise<Users> {
     try {
-      const user = await this.authRepository.findOneByEmail(email);
-      return user;
-    } catch (error) {
-      throw new Error('Error ***************');
+      return await this.authRepository.register(body);
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   }
 
-  public async register(body: IUserCreator): Promise<Users> {
-    return await this.authRepository.register(body);
+  public async recoveryPassword() {
+    try {
+      return await this.authRepository.recoveryPassword();
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 }

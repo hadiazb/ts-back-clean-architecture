@@ -27,7 +27,8 @@ class AuthRoutes {
           baseUrl: this.baseUrl,
           options: [
             { authorization: false, path: '/login', method: ['POST'] },
-            { authorization: false, path: '/register', method: ['POST'] }
+            { authorization: false, path: '/register', method: ['POST'] },
+            { authorization: false, path: '/reovery-password', method: ['POST'] }
           ]
         }
       });
@@ -35,6 +36,10 @@ class AuthRoutes {
 
     this.router.post('/register', (req: Request, res: Response, next: NextFunction) =>
       authApi.register(req, res, next)
+    );
+
+    this.router.post('/reovery-password', (req: Request, res: Response, next: NextFunction) =>
+      authApi.recoveryPassword(req, res, next)
     );
 
     this.router.post(

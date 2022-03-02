@@ -12,77 +12,65 @@ export default class UserApi {
   ) {}
 
   public async findAll(req: Request, res: Response, next: NextFunction) {
-    await this.userController
-      .findAll()
-      .then((response) => {
-        this.apiResponse.success(req, res, { status: 200, response });
-      })
-      .catch((err) => {
-        next(err);
-      });
+    try {
+      const response = await this.userController.findAll();
+      this.apiResponse.success(req, res, { status: 200, response });
+    } catch (error) {
+      next(error);
+    }
   }
 
   public async findOne(req: Request, res: Response, next: NextFunction) {
-    await this.userController
-      .findOne(req.params.id)
-      .then((response) => {
-        this.apiResponse.success(req, res, { status: 200, response });
-      })
-      .catch((err) => {
-        next(err);
-      });
+    try {
+      const response = await this.userController.findOne(req.params.id);
+      this.apiResponse.success(req, res, { status: 200, response });
+    } catch (error) {
+      next(error);
+    }
   }
 
   public async deleteOne(req: Request, res: Response, next: NextFunction) {
-    await this.userController
-      .deleteOne(req.params.id)
-      .then((response) => {
-        this.apiResponse.success(req, res, { status: 200, response });
-      })
-      .catch((err) => {
-        next(err);
-      });
+    try {
+      const response = await this.userController.deleteOne(req.params.id);
+      this.apiResponse.success(req, res, { status: 200, response });
+    } catch (error) {
+      next(error);
+    }
   }
 
   public async createOne(req: Request, res: Response, next: NextFunction) {
     const role = req.query.role!.toString();
-    await this.userController
-      .createOne(req.body, role)
-      .then((response) => {
-        this.apiResponse.success(req, res, { status: 200, response });
-      })
-      .catch((err) => {
-        next(err);
-      });
+    try {
+      const response = await this.userController.createOne(req.body, role);
+      this.apiResponse.success(req, res, { status: 200, response });
+    } catch (error) {
+      next(error);
+    }
   }
 
   public async updateOne(req: Request, res: Response, next: NextFunction) {
-    await this.userController
-      .updateOne(req.params.id, req.body)
-      .then((response) => {
-        this.apiResponse.success(req, res, { status: 200, response });
-      })
-      .catch((err) => {
-        next(err);
-      });
+    try {
+      const response = await this.userController.updateOne(req.params.id, req.body);
+      this.apiResponse.success(req, res, { status: 200, response });
+    } catch (error) {
+      next(error);
+    }
   }
 
   public async createUserAdress(req: Request, res: Response, next: NextFunction) {
-    await this.userController
-      .createUserAdress(req.params.id, req.body)
-      .then((response) => {
-        this.apiResponse.success(req, res, { status: 200, response });
-      })
-      .catch((err) => {
-        next(err);
-      });
+    try {
+      const response = await this.userController.createUserAdress(req.params.id, req.body);
+      this.apiResponse.success(req, res, { status: 200, response });
+    } catch (error) {
+      next(error);
+    }
   }
 
-  public createValidator(req: any, res: Response, next: NextFunction) {
+  public createValidator(req: any, res: Response, next: NextFunction): void {
     this.userController.createValidator(req, res, next);
   }
 
-  public getValidator(req: any, res: Response, next: NextFunction) {
+  public getValidator(req: any, res: Response, next: NextFunction): void {
     this.userController.getValidator(req, res, next);
   }
 
@@ -90,19 +78,19 @@ export default class UserApi {
     this.userController.createQueryUserSchema(req, res, next);
   }
 
-  public deleteValidator(req: any, res: Response, next: NextFunction) {
+  public deleteValidator(req: any, res: Response, next: NextFunction): void {
     this.userController.deleteValidator(req, res, next);
   }
 
-  public updateValidator(req: any, res: Response, next: NextFunction) {
+  public updateValidator(req: any, res: Response, next: NextFunction): void {
     this.userController.updateValidator(req, res, next);
   }
 
-  public createUserAdressSchema(req: any, res: Response, next: NextFunction) {
+  public createUserAdressSchema(req: any, res: Response, next: NextFunction): void {
     this.userController.createUserAdressSchema(req, res, next);
   }
 
-  public checkRole(req: Request, res: Response, next: NextFunction, ...roles: string[]) {
+  public checkRole(req: Request, res: Response, next: NextFunction, ...roles: string[]): void {
     this.userController.checkRole(req, res, next, ...roles);
   }
 }

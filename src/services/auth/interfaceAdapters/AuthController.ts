@@ -7,13 +7,8 @@ import { AuthRetriever } from '../application/implementation/AuthRetriever';
 import { AuthValidator } from '../application/implementation/AuthValidator';
 import { IUserCreator } from '../application/interface/IAuthCreator';
 import { config } from '../../../config';
+import { Options } from '../domain/interface/options';
 
-interface Options {
-  to: string;
-  subject: string;
-  text: string;
-  html: string;
-}
 @Service()
 export class AuthController implements IAuthController {
   constructor(
@@ -23,6 +18,14 @@ export class AuthController implements IAuthController {
 
   public async register(body: IUserCreator) {
     return await this.authRetriever.register(body);
+  }
+
+  public async recoveryPassword() {
+    try {
+      return await this.authRetriever.recoveryPassword();
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   public async generateToken(req: Request, res: Response, next: NextFunction) {

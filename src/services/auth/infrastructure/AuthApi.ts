@@ -38,6 +38,14 @@ export default class AuthApi {
       });
   }
 
+  public async recoveryPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      return this.authController.recoveryPassword();
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
   public async login(req: Request, res: Response, next: NextFunction) {
     try {
       const token = await this.authController.generateToken(req, res, next);
@@ -51,7 +59,11 @@ export default class AuthApi {
     this.authController.checkRole(req, res, next);
   }
 
-  public async sendMail(options: Options) {
-    return await this.authController.sendMail(options);
+  public async sendMail(options: Options): Promise<string> {
+    try {
+      return await this.authController.sendMail(options);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 }

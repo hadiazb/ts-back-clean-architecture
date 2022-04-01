@@ -14,7 +14,7 @@ export default class UserApi {
   public async findAll(req: Request, res: Response, next: NextFunction) {
     try {
       const response = await this.userController.findAll();
-      this.apiResponse.success(req, res, { status: 200, response });
+      this.apiResponse.success(req, res, { status: 200, users: response });
     } catch (error) {
       next(error);
     }

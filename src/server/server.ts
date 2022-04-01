@@ -29,7 +29,7 @@ export class Server extends AuthLogin implements IServer {
   public errorHandler: ErrorsHandler = new ErrorsHandler();
   public io: socketIO.Server;
   public server;
-  public whitelist: string[] = ['http://localhost:3000', 'https://myapp.co'];
+  public whitelist: string[] = ['http://localhost:3000', 'https://myapp.co', '*'];
 
   constructor() {
     super();
@@ -54,7 +54,6 @@ export class Server extends AuthLogin implements IServer {
         extended: false
       })
     );
-    this.application.use(this.corsValidator);
     this.application.use(this.errorHandler.logErrors);
     this.application.use(this.errorHandler.boomErrorHandler);
     this.application.use(this.errorHandler.errorHandler);
@@ -65,6 +64,7 @@ export class Server extends AuthLogin implements IServer {
   public middlewaresBefore() {
     this.application.use(morgan('dev'));
     this.application.use(express.json());
+    this.application.use(this.corsValidator());
   }
 
   public routes() {
@@ -101,14 +101,26 @@ export class Server extends AuthLogin implements IServer {
   }
 
   public corsValidator() {
-    return cors({
-      origin: (origin, callback) => {
-        if (this.whitelist.includes(origin!)) {
-          callback(null, true);
-        } else {
-          callback(new Error('no permitido'));
+    if (this.configuration.env === 'staging') {
+      return cors({
+        origin: '*'
+      });
+    }
+
+    if (this.configuration.env === 'production') {
+      return cors({
+        origin: (origin, callback) => {
+          if (this.whitelist.includes(origin!)) {
+            callback(null, true);
+          } else {
+            callback(new Error('no permitido'));
+          }
         }
-      }
+      });
+    }
+
+    return cors({
+      origin: '*'
     });
   }
 }

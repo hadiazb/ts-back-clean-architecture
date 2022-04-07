@@ -21,7 +21,7 @@ export default class AuthApi {
     await this.authController
       .register(req.body)
       .then(async (response) => {
-        const mail = await this.sendMail({
+        await this.sendMail({
           to: response.email,
           subject: `Hola ${response.name} ${response.lastName}`,
           text: 'Texto de prueba para mi correo',
@@ -31,7 +31,6 @@ export default class AuthApi {
             `
         });
         this.apiResponse.success(req, res, { status: 200, response });
-        console.log(mail);
       })
       .catch((err) => {
         next(err);
@@ -49,7 +48,7 @@ export default class AuthApi {
   public async login(req: Request, res: Response, next: NextFunction) {
     try {
       const token = await this.authController.generateToken(req, res, next);
-      await this.apiResponse.success(req, res, { status: 200, user: req.user, token });
+      await this.apiResponse.success(req, res, { token });
     } catch (error) {
       next(error);
     }

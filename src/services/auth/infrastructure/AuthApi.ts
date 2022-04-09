@@ -54,6 +54,15 @@ export default class AuthApi {
     }
   }
 
+  public async refreshToken(req: Request, res: Response, next: NextFunction) {
+    try {
+      const refreshToken = await this.authController.refreshToken(req);
+      await this.apiResponse.success(req, res, { token: refreshToken });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   public checkRole(req: Request, res: Response, next: NextFunction) {
     this.authController.checkRole(req, res, next);
   }

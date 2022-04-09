@@ -33,8 +33,17 @@ export class AuthContext implements IAuthContext {
 
   public async generateToken(payload: Users, secret: string) {
     return await jwt.sign(payload.get({ plain: true }), secret, {
-      expiresIn: 60 * 30
+      expiresIn: '5m'
     });
+  }
+
+  public async decodeToken(token: string, secret: string) {
+    try {
+      const user = jwt.verify(token, secret);
+      return user;
+    } catch (error) {
+      throw new Error(`error ${error}`);
+    }
   }
 
   public async sendMail(options: Options) {

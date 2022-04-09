@@ -1,5 +1,6 @@
 import { Router, Request, NextFunction, Response } from 'express';
 import Container from 'typedi';
+import jwt from 'jsonwebtoken';
 
 import AuthApi from './AuthApi';
 import { config } from '../../../config/index';
@@ -46,6 +47,10 @@ class AuthRoutes {
       '/login',
       passport.authenticate('local', { session: false }),
       (req: Request, res: Response, next: NextFunction) => authApi.login(req, res, next)
+    );
+
+    this.router.post('/refresh-token', (req: Request, res: Response, next: NextFunction) =>
+      authApi.refreshToken(req, res, next)
     );
   }
 }

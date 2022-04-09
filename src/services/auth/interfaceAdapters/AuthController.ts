@@ -40,6 +40,15 @@ export class AuthController implements IAuthController {
     }
   }
 
+  public async refreshToken(req: Request) {
+    try {
+      const refreshToken = await this.authRetriever.refreshToken(req.headers.token!.toString());
+      return refreshToken;
+    } catch (error) {
+      throw boom.unauthorized();
+    }
+  }
+
   public checkRole(req: Request, res: Response, next: NextFunction) {
     this.authValidator.checkRole(req, res, next);
   }

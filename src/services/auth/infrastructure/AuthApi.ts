@@ -3,6 +3,7 @@ import { Service } from 'typedi';
 
 import { AuthController } from '../interfaceAdapters/AuthController';
 import { ApiResponse } from '../../../utils/response.handler';
+import TemplateMails from '../../../utils/template.mail';
 
 interface Options {
   to: string;
@@ -10,26 +11,27 @@ interface Options {
   text: string;
   html: string;
 }
+
 @Service()
 export default class AuthApi {
   constructor(
     private readonly authController: AuthController,
-    private readonly apiResponse: ApiResponse
+    private readonly apiResponse: ApiResponse,
+    private readonly templateMails: TemplateMails
   ) {}
 
   public async register(req: Request, res: Response, next: NextFunction) {
     await this.authController
       .register(req.body)
       .then(async (response) => {
-        await this.sendMail({
-          to: response.email,
-          subject: `Hola ${response.name} ${response.lastName}`,
-          text: 'Texto de prueba para mi correo',
-          html: `
-            <p>Hola <strong>${response.name} ${response.lastName}</strong>, te has registrado a nuetra aplicación con exito!!!, nunca cambies</p>
-            <p>Hemos recibido tus datos con exito, ahora haces parte de nuestra familia XXXX</p>
-            `
-        });
+        await this.sendMail(
+          this.templateMails.createMailOptions({
+            email: response.email,
+            name: response.name!,
+            lastName: response.lastName!,
+            text: 'Texto de prueba para mi correo'
+          })
+        );
         this.apiResponse.success(req, res, { status: 200, response });
       })
       .catch((err) => {

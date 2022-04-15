@@ -33,7 +33,7 @@ export class AuthContext implements IAuthContext {
 
   public async generateToken(payload: Users, secret: string) {
     return await jwt.sign(payload.get({ plain: true }), secret, {
-      expiresIn: '5m'
+      expiresIn: '30m'
     });
   }
 
